@@ -28,6 +28,6 @@ January 3, 2025
 - Next plan is to implement scraper for the offered courses
 - Next Plan is to implement scraper for remaining balance for the semester.
 - ismisCrawl version 2 is hardcoded in the same file.
-- needs .txt file (credentials.txt) with format for version 3
+- needs .txt file (credentials.txt) with format for version 3 (automatically makes one if doesn't exist)
 - YOUR-ISMIS-USERNAME
 - YOUR-ISMIS-PASSWORD
