@@ -6,19 +6,35 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException, TimeoutException, WebDriverException
 import time
+import getpass
 import os
 
-# Configuration
+# Configurations
 options = Options()
-options.headless = False  # Runs browser visibly; change to True to run headless
+options.headless = False  # Runs Chromium browser visibly
 options.add_experimental_option("excludeSwitches", ["enable-logging"])  # Disables DevTools logs
-service = Service("./chromedriver.exe")
-browser = webdriver.Chrome(service=service, options=options)
+ser = Service("./chromedriver.exe")
+browser = webdriver.Chrome(service=ser, options=options)
 
-# Clear terminal function
-clear = lambda: os.system('cls' if os.name == 'nt' else 'clear')
+clear = lambda: os.system('cls' if os.name == 'nt' else 'clear')  # Clears terminal
 
 # Functions
+def load_credentials(file_path="credentials.txt"):
+    """Loads credentials from a file."""
+    try:
+        with open(file_path, "r") as file:
+            lines = file.readlines()
+            username = lines[0].strip()
+            password = lines[1].strip()
+            return username, password
+    except FileNotFoundError:
+        print("Credentials file not found. Creating a new one...")
+        username = input("Enter your username: ")
+        password = getpass.getpass("Enter your password: ")
+        with open(file_path, "w") as file:
+            file.write(f"{username}\n{password}")
+        return username, password
+
 def wait_for_element(by, identifier, timeout=10, max_retries=5):
     """Waits for an element to be present and retries on connection or timeout errors."""
     retries = 0
@@ -40,18 +56,25 @@ def wait_for_element(by, identifier, timeout=10, max_retries=5):
                 raise e
     raise TimeoutException(f"Failed to find element {identifier} after {max_retries} retries.")
 
-
-def get_credentials():
-    """Reads credentials from a file or prompts the user if unavailable."""
+def check_site_crash_login_page():
+    """Checks if the login page is fully loaded by looking for the login button."""
     try:
-        with open("credentials.txt", "r") as file:
-            lines = file.readlines()
-            username = lines[0].strip()
-            password = lines[1].strip()
-            return username, password
-    except FileNotFoundError:
-        print("Credentials file not found. Please create a 'credentials.txt' file with username on the first line and password on the second line.")
-        exit()
+        WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "button.btn")))
+        return False  # No crash, button found
+    except TimeoutException:
+        print("Login page not loaded properly. Refreshing...")
+        return True  # Crash detected
+
+def check_site_crash_homepage():
+    """Checks if the homepage is properly loaded by looking for the header profile picture."""
+    try:
+        WebDriverWait(browser, 10).until(
+            EC.presence_of_element_located((By.ID, "header_profile_pic"))
+        )
+        return False  # No crash, profile picture found
+    except TimeoutException:
+        print("Homepage not loaded properly. Refreshing...")
+        return True  # Crash detected
 
 def login_attempt(username_input, password_input, max_retries=5):
     """Attempts to log into the ISMIS website with retries."""
@@ -59,6 +82,12 @@ def login_attempt(username_input, password_input, max_retries=5):
     while retries < max_retries:
         try:
             browser.get("https://ismis.usc.edu.ph")
+
+            # Ensure the login page is loaded properly
+            while check_site_crash_login_page():
+                browser.refresh()
+                time.sleep(5)
+
             username = wait_for_element(By.ID, "Username")
             password = wait_for_element(By.ID, "Password")
             login_button = wait_for_element(By.CSS_SELECTOR, "button.btn")
@@ -93,83 +122,62 @@ def check_valid_login():
     except TimeoutException:
         return True
 
-def check_site_crash():
-    """Checks if the ISMIS homepage has crashed."""
+def fetch_grades():
+    """Fetches and prints the grade data."""
     try:
-        WebDriverWait(browser, 10).until(
-            EC.presence_of_element_located((By.ID, "header_profile_pic"))
-        )
+        browser.get("https://ismis.usc.edu.ph/ViewGrades")
+        body = wait_for_element(By.TAG_NAME, "body", timeout=60)
+        tables = body.find_elements(By.CLASS_NAME, "table")
+
+        print("{:20s} {:60s} {:7s} {:4s} {:4s}".format("Course Code", "Course Name", "Units", "MG", "FG"))
+
+        for table_index in range(len(tables)):
+            course_code = tables[table_index].find_elements(By.CLASS_NAME, "col-lg-3")
+            course_name = tables[table_index].find_elements(By.CLASS_NAME, "col-lg-6")
+            unit_num = tables[table_index].find_elements(By.CSS_SELECTOR, "td.hidden-xs")
+            grade_value = tables[table_index].find_elements(By.CSS_SELECTOR, "td.col-lg-1:not(.hidden-xs)")
+
+            grade_index = 0
+            for index in range(len(course_code)):
+                print("{:20s} {:60s} {:7s} {:4s} {:4s}".format(
+                    course_code[index].text, course_name[index].text, unit_num[index].text,
+                    grade_value[grade_index].text, grade_value[grade_index + 1].text
+                ))
+                grade_index += 2
+            print("\n\n")
     except TimeoutException:
-        return True
-    return False
-
-def fetch_grades(max_retries=5):
-    """Fetches and prints the grade data with retries."""
-    retries = 0
-    while retries < max_retries:
-        try:
-            browser.get("https://ismis.usc.edu.ph/ViewGrades")
-            body = wait_for_element(By.TAG_NAME, "body", timeout=60)
-            tables = body.find_elements(By.CLASS_NAME, "table")
-
-            print("{:20s} {:60s} {:7s} {:4s} {:4s}".format("Course Code", "Course Name", "Units", "MG", "FG"))
-
-            for table_index in range(len(tables)):
-                course_code = tables[table_index].find_elements(By.CLASS_NAME, "col-lg-3")
-                course_name = tables[table_index].find_elements(By.CLASS_NAME, "col-lg-6")
-                unit_num = tables[table_index].find_elements(By.CSS_SELECTOR, "td.hidden-xs")
-                grade_value = tables[table_index].find_elements(By.CSS_SELECTOR, "td.col-lg-1:not(.hidden-xs)")
-
-                grade_index = 0
-                for index in range(len(course_code)):
-                    print("{:20s} {:60s} {:7s} {:4s} {:4s}".format(
-                        course_code[index].text, course_name[index].text, unit_num[index].text,
-                        grade_value[grade_index].text, grade_value[grade_index + 1].text
-                    ))
-                    grade_index += 2
-                print("\n\n")
-            return
-        except WebDriverException as e:
-            if "ERR_CONNECTION_RESET" in str(e):
-                print(f"Connection reset detected. Retrying fetch grades ({retries + 1}/{max_retries})...")
-                retries += 1
-                time.sleep(5)
-            else:
-                raise e
-    raise Exception("Failed to fetch grades after multiple retries.")
+        print("Error fetching grades. Please try again later.")
 
 def main():
     """Main function to control the flow of the program."""
     clear()
 
-    print("Welcome to ISMIS Crawler!")
+    print("Welcome to blurridge's ISMIS Crawler!\n")
     print("Delivering your grades without the hassle.")
     time.sleep(1)
     print("Loading...")
 
     login_status = False
-    homepage_crash = False
 
+    # Load credentials from a file
+    username_input, password_input = load_credentials()
+
+    # Login process
     while not login_status:
-        username_input, password_input = get_credentials()
         clear()
-
         login_status = login_attempt(username_input, password_input)
         if login_status:
             login_status = check_valid_login()
 
     print("Entering homepage...")
-    time.sleep(5)
-    homepage_crash = check_site_crash()
 
-    while homepage_crash:
-        print("Site crashed. Refreshing...")
+    # Handle homepage crashes
+    while check_site_crash_homepage():
+        print("Site crashed. Refreshing homepage...")
         browser.refresh()
         time.sleep(5)
-        homepage_crash = check_site_crash()
 
     fetch_grades()
-
     print("DONE!")
     browser.quit()
 
