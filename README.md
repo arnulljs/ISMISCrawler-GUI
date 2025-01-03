@@ -22,5 +22,5 @@ January 3, 2025
 - Next Plan is to implement scraper for remaining balance for the semester.
 - ismisCrawl version 2 is hardcoded in the same file.
 - needs .txt file (credentials.txt) with format for version 3
-- username=YOUR-ISMIS-USERNAME
-- password=YOUR-ISMIS-PASSWORD
+- YOUR-ISMIS-USERNAME
+- YOUR-ISMIS-PASSWORD
