@@ -35,7 +35,7 @@ def load_credentials(file_path="credentials.txt"):
             file.write(f"{username}\n{password}")
         return username, password
 
-def wait_for_element(by, identifier, timeout=10, max_retries=5):
+def wait_for_element(by, identifier, timeout=5, max_retries=10):
     """Waits for an element to be present and retries on connection or timeout errors."""
     retries = 0
     while retries < max_retries:
@@ -127,7 +127,7 @@ def fetch_grades():
     try:
         browser.get("https://ismis.usc.edu.ph/ViewGrades")
         #body = wait_for_element(By.TAG_NAME, "body", timeout=60)
-        body = wait_for_element(By.CLASS_NAME, "portlet-title", timeout=60) #Trying to make it that it loads the table.
+        body = wait_for_element(By.CLASS_NAME, "portlet-title", timeout=5) #Trying to make it that it loads the table.
         tables = body.find_elements(By.CLASS_NAME, "table")
 
         print("{:20s} {:60s} {:7s} {:4s} {:4s}".format("Course Code", "Course Name", "Units", "MG", "FG"))

@@ -16,6 +16,8 @@ January 20, 2021
 - Implemented checking for login status and site crash.
 - Next plan would be to implement a checker for remaining balance for the semester.
 
+# My Changes
+
 January 3, 2025
 - Implented checking if site times out or crashes and added global variable for username and password.
 - Next plan is to implement scraper for the offered courses
