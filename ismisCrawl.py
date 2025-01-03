@@ -22,7 +22,7 @@ import os
 options = Options()
 options.headless = False # Enables Chromium browser to run without being visible
 options.add_experimental_option("excludeSwitches", ["enable-logging"]) # Disables DevTools logs on terminal
-ser = Service(r"C:\Users\Chrys Sean Sevilla\Documents\ISMISCrawler\chromedriver.exe")
+ser = Service("./chromedriver.exe")
 browser = webdriver.Chrome(service = ser, options = options)
 clear = lambda: os.system('clear') # Clears the terminal
 loginStatus = False # Login status initially declared False to initialize next loop of gathering credentials

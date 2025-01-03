@@ -17,7 +17,7 @@ PASSWORD = "YOUR-PASS"  # Replace with your ISMIS password
 options = Options()
 options.headless = False  # Runs Chromium browser without being visible
 options.add_experimental_option("excludeSwitches", ["enable-logging"])  # Disables DevTools logs on terminal
-ser = Service(r"C:\\Users\\Chrys Sean Sevilla\\Documents\\ISMISCrawler\\chromedriver.exe")
+ser = Service("./chromedriver.exe")
 browser = webdriver.Chrome(service=ser, options=options)
 
 clear = lambda: os.system('cls' if os.name == 'nt' else 'clear')  # Clears terminal
