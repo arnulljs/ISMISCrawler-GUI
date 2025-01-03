@@ -126,8 +126,8 @@ def fetch_grades():
     """Fetches and prints the grade data."""
     try:
         browser.get("https://ismis.usc.edu.ph/ViewGrades")
-        #body = wait_for_element(By.TAG_NAME, "body", timeout=60)
-        body = wait_for_element(By.CLASS_NAME, "portlet-title", timeout=5) #Trying to make it that it loads the table.
+        body = wait_for_element(By.TAG_NAME, "body", timeout=15)
+        #body = wait_for_element(By.CLASS_NAME, "portlet-title", timeout=5) #Trying to make it that it loads the table.
         tables = body.find_elements(By.CLASS_NAME, "table")
 
         print("{:20s} {:60s} {:7s} {:4s} {:4s}".format("Course Code", "Course Name", "Units", "MG", "FG"))

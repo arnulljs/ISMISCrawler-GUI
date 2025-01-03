@@ -18,6 +18,11 @@ January 20, 2021
 
 # My Changes
 
+# How to install Selenium
+- Install python at https://www.python.org/downloads/windows/
+- run (python --version) at command prompt
+- run (python -m pip install selenium)
+
 January 3, 2025
 - Implented checking if site times out or crashes and added global variable for username and password.
 - Next plan is to implement scraper for the offered courses
