@@ -10,8 +10,8 @@ import getpass
 import os
 
 # Global Variables for Username and Password
-USERNAME = "YOUR-ID"  # Replace with your ISMIS username
-PASSWORD = "YOUR-PASS"  # Replace with your ISMIS password
+USERNAME = ""  # Replace with your ISMIS username
+PASSWORD = ""  # Replace with your ISMIS password
 
 # Configurations
 options = Options()
