@@ -20,7 +20,7 @@ clear = lambda: os.system('cls' if os.name == 'nt' else 'clear')
 
 # Functions
 def wait_for_element(by, identifier, timeout=10, max_retries=5):
-    """Waits for an element to be present and retries on connection errors."""
+    """Waits for an element to be present and retries on connection or timeout errors."""
     retries = 0
     while retries < max_retries:
         try:
@@ -31,14 +31,15 @@ def wait_for_element(by, identifier, timeout=10, max_retries=5):
             browser.refresh()
             time.sleep(5)
         except WebDriverException as e:
-            if "ERR_CONNECTION_RESET" in str(e):
-                print(f"Connection reset detected. Retrying ({retries + 1}/{max_retries})...")
+            if "ERR_CONNECTION_RESET" in str(e) or "ERR_CONNECTION_TIMED_OUT" in str(e):
+                print(f"Connection issue detected ({str(e)}). Retrying ({retries + 1}/{max_retries})...")
                 retries += 1
                 browser.refresh()
                 time.sleep(5)
             else:
                 raise e
     raise TimeoutException(f"Failed to find element {identifier} after {max_retries} retries.")
+
 
 def get_credentials():
     """Reads credentials from a file or prompts the user if unavailable."""
@@ -73,8 +74,8 @@ def login_attempt(username_input, password_input, max_retries=5):
 
             return True
         except WebDriverException as e:
-            if "ERR_CONNECTION_RESET" in str(e):
-                print(f"Connection reset detected. Retrying login ({retries + 1}/{max_retries})...")
+            if "ERR_CONNECTION_RESET" in str(e) or "ERR_CONNECTION_TIMED_OUT" in str(e):
+                print(f"Connection issue detected ({str(e)}). Retrying login ({retries + 1}/{max_retries})...")
                 retries += 1
                 time.sleep(5)
             else:
