@@ -31,3 +31,13 @@ January 3, 2025
 - needs .txt file (credentials.txt) with format for version 3 (automatically makes one if doesn't exist)
 - YOUR-ISMIS-USERNAME
 - YOUR-ISMIS-PASSWORD
+
+January 8, 2025
+- Implemented the Advise Course button logic
+- Improved the undefined, loading, and please wait to retry logic.
+
+January 10, 2025
+- Implemented to advise the GE-FREE Electives after pressing the advise course and the retry logic.
+- Implemented to display the possible schedules and their corresponding links after advising.
+- Implemented function that makes it possible to also do it for separate courses as long as you know their course code. Will maybe make it user inputtable so that they can put the course code of the course they want? (line 662)
+- Need to expand the list of free electives soon. (lines 425 and 523)

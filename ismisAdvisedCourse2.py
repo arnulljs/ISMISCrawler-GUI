@@ -659,7 +659,7 @@ def schedule_CPES(timeout=10):
     """
 
     # Construct the CSS selector
-    button_selector = f"a.green.rs-modal[title*='Click to view schedule  CPES 2201']"
+    button_selector = f"a.green.rs-modal[title*='Click to view schedule  CPES 2201']" # make this user inputtable soon?
 
     # Retry logic to click the button and wait for the success message
     while True:
