@@ -435,7 +435,7 @@ def advise_ge_fel_course(timeout=10):
 
     # Pre-defined list of GE-FEL courses with full titles
     ge_fel_courses = [
-        ("EW-AYG", "ENERGY WISE: ARE YOU GREEN?"),
+        ("ESUR", "EUREKA! STIR YOUR IMAGINATION"),
         ("TPDD", "THANATOLOGY (PHILOSOPHY OF DYING AND DEATH)"),
         ("US", "URBAN SKETCHING"),
         ("ITCCD", "INDIGENOUS TRADITIONAL CREATIVE CRAFTS AND DESIGN"),
@@ -483,7 +483,7 @@ def advise_ge_fel_course(timeout=10):
                 print(f"Course already been advised!")
                 break
         except TimeoutException:
-            print("Error: GE-FEL 3 Course content did not load properly. Retrying...")
+            print("Error: Free Elective Course content did not load properly. Retrying...")
 
         except WebDriverException as e:
             # Handle potential modal issues
@@ -533,7 +533,7 @@ def schedule_ge_fel_course(timeout=10):
 
     # Pre-defined list of GE-FEL courses with full titles
     ge_fel_courses = [
-        ("EW-AYG", "ENERGY WISE: ARE YOU GREEN?"),
+        ("ESUR", "EUREKA! STIR YOUR IMAGINATION"),
         ("TPDD", "THANATOLOGY (PHILOSOPHY OF DYING AND DEATH)"),
         ("US", "URBAN SKETCHING"),
         ("ITCCD", "INDIGENOUS TRADITIONAL CREATIVE CRAFTS AND DESIGN"),
@@ -657,7 +657,7 @@ def schedule_CPES(timeout=10):
     Returns:
         None
     """
-
+    #Click to view schedule  GE-FEL TPDD
     # Construct the CSS selector
     button_selector = f"a.green.rs-modal[title*='Click to view schedule  CPES 2201']" # make this user inputtable soon?
 
@@ -766,7 +766,7 @@ def navigate_to_view_lacking():
         time.sleep(5)
 
     # Click the Block Advising button
-    press_view_lacking()
+    #press_view_lacking()
 
     
 def navigate_to_advise_course():
@@ -805,19 +805,26 @@ def main():
     #time.sleep(10)
     #navigate_to_block_advising()
 
-    #print("Navigating to View Lacking...")
-    #navigate_to_view_lacking()
+    print("Navigating to View Lacking...")
+    navigate_to_view_lacking()
 
-    print("Navigating to Advised Course...")
-    navigate_to_advise_course()
+    #print("Navigating to Advised Course...")
+    #navigate_to_advise_course()
     
-    schedule_CPES()
+
+
+    
+    
     #print("Navigating to GE-FEL 2...")
     #press_GE_FEL2()
     
     #print("Pressing GE-FEL AYG...")
     #advise_ge_fel_course()
-
+    
+    #schedule_ge_fel_course()
+    
+    schedule_CPES()
+    
     print("DONE!")
     # Keep the browser open after navigation
     input("Press Enter to exit and close the browser.")
