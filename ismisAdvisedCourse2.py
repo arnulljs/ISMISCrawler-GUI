@@ -421,7 +421,6 @@ def press_GE_FEL3():
 
         time.sleep(2)  # Brief delay before retrying     
 
-
 def advise_ge_fel_course(timeout=10):
     """
     Continuously tries to press a GE-FEL button until the modal with "Successfully advised course" appears.
@@ -514,11 +513,250 @@ def advise_ge_fel_course(timeout=10):
                         ActionChains(browser).send_keys(Keys.ESCAPE).perform()
                         print("Modal closed after 20-second wait. Retrying...")
                         continue
-                    
             except Exception as modal_error:
                 print(f"Error while handling modal: {modal_error}")
 
         time.sleep(2)  # Brief delay before retrying     
+
+def press_CPE_2301_show(timeout=10):
+    """
+    Presses the 'Click to show course to be advisedCPE 2301' button and waits for the modal to open.
+    Retries on modal errors.
+    """
+    show_button_selector = "a.green.rs-modal[title*='Click to show course to be advisedCPE 2301']"
+    while True:
+        try:
+            show_button = wait_for_element(By.CSS_SELECTOR, show_button_selector, timeout)
+            show_button.click()
+            print("Opened modal for CPE 2301.")
+            return True
+        except TimeoutException:
+            print("Error: CPE 2301 show button did not load properly. Retrying...")
+        except WebDriverException as e:
+            try:
+                modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                if modal.is_displayed():
+                    modal_body = modal.find_element(By.CSS_SELECTOR, "#modal2Body").text.strip()
+                    if "undefined" in modal_body:
+                        print(f"Modal issue detected: {modal_body}. Closing modal and retrying...")
+                        ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                        print("Modal closed due to 'undefined'. Retrying immediately...")
+                        continue
+                    if "... i'm still processing your request :)" in modal_body:
+                        print(f"Modal is processing: {modal_body}. Waiting 10 seconds before retrying...")
+                        time.sleep(10)
+                        ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                        print("Modal closed after 10-second wait. Retrying...")
+                        continue
+                    if "... loading ..." in modal_body:
+                        print(f"Modal is loading: {modal_body}. Waiting 20 seconds before retrying...")
+                        time.sleep(20)
+                        ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                        print("Modal closed after 20-second wait. Retrying...")
+                        continue
+            except Exception as modal_error:
+                print(f"Error while handling modal: {modal_error}")
+        time.sleep(2)
+
+def get_CPE_2301_advise_link(timeout=10):
+    """
+    Gets the 'Click to advise course CPE 2301' link from the modal.
+    Retries on modal errors.
+    """
+    advise_button_selector = "a.green.rs-modal[title*='Click to advise course CPE 2301']"
+    while True:
+        try:
+            advise_button = wait_for_element(By.CSS_SELECTOR, advise_button_selector, timeout)
+            link = advise_button.get_attribute("href")
+            print(f"CPE 2301 advise link: {link}")
+            return link
+        except TimeoutException:
+            print("Error: CPE 2301 advise button did not load properly. Retrying...")
+        except WebDriverException as e:
+            try:
+                modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                if modal.is_displayed():
+                    modal_body = modal.find_element(By.CSS_SELECTOR, "#modal2Body").text.strip()
+                    if "undefined" in modal_body:
+                        print(f"Modal issue detected: {modal_body}. Closing modal and retrying...")
+                        ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                        print("Modal closed due to 'undefined'. Retrying immediately...")
+                        continue
+                    if "... i'm still processing your request :)" in modal_body:
+                        print(f"Modal is processing: {modal_body}. Waiting 10 seconds before retrying...")
+                        time.sleep(10)
+                        ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                        print("Modal closed after 10-second wait. Retrying...")
+                        continue
+                    if "... loading ..." in modal_body:
+                        print(f"Modal is loading: {modal_body}. Waiting 20 seconds before retrying...")
+                        time.sleep(20)
+                        ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                        print("Modal closed after 20-second wait. Retrying...")
+                        continue
+            except Exception as modal_error:
+                print(f"Error while handling modal: {modal_error}")
+        time.sleep(2)
+
+def press_CPE_2302_show(timeout=10):
+    """
+    Presses the 'Click to show course to be advisedCPE 2302' button and waits for the modal to open.
+    Retries on modal errors.
+    """
+    show_button_selector = "a.green.rs-modal[title*='Click to show course to be advisedCPE 2302']"
+    while True:
+        try:
+            show_button = wait_for_element(By.CSS_SELECTOR, show_button_selector, timeout)
+            show_button.click()
+            print("Opened modal for CPE 2302.")
+            return True
+        except TimeoutException:
+            print("Error: CPE 2302 show button did not load properly. Retrying...")
+        except WebDriverException as e:
+            try:
+                modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                if modal.is_displayed():
+                    modal_body = modal.find_element(By.CSS_SELECTOR, "#modal2Body").text.strip()
+                    if "undefined" in modal_body:
+                        print(f"Modal issue detected: {modal_body}. Closing modal and retrying...")
+                        ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                        print("Modal closed due to 'undefined'. Retrying immediately...")
+                        continue
+                    if "... i'm still processing your request :)" in modal_body:
+                        print(f"Modal is processing: {modal_body}. Waiting 10 seconds before retrying...")
+                        time.sleep(10)
+                        ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                        print("Modal closed after 10-second wait. Retrying...")
+                        continue
+                    if "... loading ..." in modal_body:
+                        print(f"Modal is loading: {modal_body}. Waiting 20 seconds before retrying...")
+                        time.sleep(20)
+                        ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                        print("Modal closed after 20-second wait. Retrying...")
+                        continue
+            except Exception as modal_error:
+                print(f"Error while handling modal: {modal_error}")
+        time.sleep(2)
+
+def get_CPE_2302_advise_link(timeout=10):
+    """
+    Gets the 'Click to advise course CPE 2302' link from the modal.
+    Retries on modal errors.
+    """
+    advise_button_selector = "a.green.rs-modal[title*='Click to advise course CPE 2302']"
+    while True:
+        try:
+            advise_button = wait_for_element(By.CSS_SELECTOR, advise_button_selector, timeout)
+            link = advise_button.get_attribute("href")
+            print(f"CPE 2302 advise link: {link}")
+            return link
+        except TimeoutException:
+            print("Error: CPE 2302 advise button did not load properly. Retrying...")
+        except WebDriverException as e:
+            try:
+                modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                if modal.is_displayed():
+                    modal_body = modal.find_element(By.CSS_SELECTOR, "#modal2Body").text.strip()
+                    if "undefined" in modal_body:
+                        print(f"Modal issue detected: {modal_body}. Closing modal and retrying...")
+                        ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                        print("Modal closed due to 'undefined'. Retrying immediately...")
+                        continue
+                    if "... i'm still processing your request :)" in modal_body:
+                        print(f"Modal is processing: {modal_body}. Waiting 10 seconds before retrying...")
+                        time.sleep(10)
+                        ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                        print("Modal closed after 10-second wait. Retrying...")
+                        continue
+                    if "... loading ..." in modal_body:
+                        print(f"Modal is loading: {modal_body}. Waiting 20 seconds before retrying...")
+                        time.sleep(20)
+                        ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                        print("Modal closed after 20-second wait. Retrying...")
+                        continue
+            except Exception as modal_error:
+                print(f"Error while handling modal: {modal_error}")
+        time.sleep(2)
+
+def press_CPE_2303L_show(timeout=10):
+    """
+    Presses the 'Click to show course to be advisedCPE 2303L' button and waits for the modal to open.
+    Retries on modal errors.
+    """
+    show_button_selector = "a.green.rs-modal[title*='Click to show course to be advisedCPE 2303L']"
+    while True:
+        try:
+            show_button = wait_for_element(By.CSS_SELECTOR, show_button_selector, timeout)
+            show_button.click()
+            print("Opened modal for CPE 2303L.")
+            return True
+        except TimeoutException:
+            print("Error: CPE 2303L show button did not load properly. Retrying...")
+        except WebDriverException as e:
+            try:
+                modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                if modal.is_displayed():
+                    modal_body = modal.find_element(By.CSS_SELECTOR, "#modal2Body").text.strip()
+                    if "undefined" in modal_body:
+                        print(f"Modal issue detected: {modal_body}. Closing modal and retrying...")
+                        ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                        print("Modal closed due to 'undefined'. Retrying immediately...")
+                        continue
+                    if "... i'm still processing your request :)" in modal_body:
+                        print(f"Modal is processing: {modal_body}. Waiting 10 seconds before retrying...")
+                        time.sleep(10)
+                        ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                        print("Modal closed after 10-second wait. Retrying...")
+                        continue
+                    if "... loading ..." in modal_body:
+                        print(f"Modal is loading: {modal_body}. Waiting 20 seconds before retrying...")
+                        time.sleep(20)
+                        ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                        print("Modal closed after 20-second wait. Retrying...")
+                        continue
+            except Exception as modal_error:
+                print(f"Error while handling modal: {modal_error}")
+        time.sleep(2)
+
+def get_CPE_2303L_advise_link(timeout=10):
+    """
+    Gets the 'Click to advise course CPE 2303L' link from the modal.
+    Retries on modal errors.
+    """
+    advise_button_selector = "a.green.rs-modal[title*='Click to advise course CPE 2303L']"
+    while True:
+        try:
+            advise_button = wait_for_element(By.CSS_SELECTOR, advise_button_selector, timeout)
+            link = advise_button.get_attribute("href")
+            print(f"CPE 2303L advise link: {link}")
+            return link
+        except TimeoutException:
+            print("Error: CPE 2303L advise button did not load properly. Retrying...")
+        except WebDriverException as e:
+            try:
+                modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                if modal.is_displayed():
+                    modal_body = modal.find_element(By.CSS_SELECTOR, "#modal2Body").text.strip()
+                    if "undefined" in modal_body:
+                        print(f"Modal issue detected: {modal_body}. Closing modal and retrying...")
+                        ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                        print("Modal closed due to 'undefined'. Retrying immediately...")
+                        continue
+                    if "... i'm still processing your request :)" in modal_body:
+                        print(f"Modal is processing: {modal_body}. Waiting 10 seconds before retrying...")
+                        time.sleep(10)
+                        ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                        print("Modal closed after 10-second wait. Retrying...")
+                        continue
+                    if "... loading ..." in modal_body:
+                        print(f"Modal is loading: {modal_body}. Waiting 20 seconds before retrying...")
+                        time.sleep(20)
+                        ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                        print("Modal closed after 20-second wait. Retrying...")
+                        continue
+            except Exception as modal_error:
+                print(f"Error while handling modal: {modal_error}")
+        time.sleep(2)
 
 def schedule_ge_fel_course(timeout=10):
     """
@@ -641,7 +879,6 @@ def schedule_ge_fel_course(timeout=10):
                         ActionChains(browser).send_keys(Keys.ESCAPE).perform()
                         print("Modal closed after 20-second wait. Retrying...")
                         continue
-                    
             except Exception as modal_error:
                 print(f"Error while handling modal: {modal_error}")
 
@@ -649,7 +886,7 @@ def schedule_ge_fel_course(timeout=10):
         
 def schedule_CPES(timeout=10):
     """
-    Continuously tries to press a GE-FEL button until the modal with "Schedule" appears.
+    This is after you have advised the course this is same as schedule_ge_fel_course but this is for individual subjects. It gives the links for the schedules.
 
     Args:
         timeout: Timeout in seconds for waiting for elements (default: 10 seconds).
@@ -738,7 +975,6 @@ def schedule_CPES(timeout=10):
                         ActionChains(browser).send_keys(Keys.ESCAPE).perform()
                         print("Modal closed after 20-second wait. Retrying...")
                         continue
-                    
             except Exception as modal_error:
                 print(f"Error while handling modal: {modal_error}")
 
@@ -805,16 +1041,12 @@ def main():
     #time.sleep(10)
     #navigate_to_block_advising()
 
-    print("Navigating to View Lacking...")
-    navigate_to_view_lacking()
+    #print("Navigating to View Lacking...")
+    #navigate_to_view_lacking()
 
-    #print("Navigating to Advised Course...")
-    #navigate_to_advise_course()
-    
+    print("Navigating to Advised Course...")
+    navigate_to_advise_course()
 
-
-    
-    
     #print("Navigating to GE-FEL 2...")
     #press_GE_FEL2()
     
@@ -823,7 +1055,7 @@ def main():
     
     #schedule_ge_fel_course()
     
-    schedule_CPES()
+    #schedule_CPES()
     
     print("DONE!")
     # Keep the browser open after navigation
@@ -838,3 +1070,5 @@ if __name__ == "__main__":
         print(f"An error occurred: {e}")
     finally:
         browser.quit()
+
+
