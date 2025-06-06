@@ -794,21 +794,21 @@ def advise_CPE_2302(timeout=10):
                 print(f"Error while handling modal: {modal_error}")
         time.sleep(2)
 
-def advise_CPE_2303(timeout=10):
+def advise_CPE_2303L(timeout=10):
     """
-    Presses the plus button for CPE 2303 and then presses the 'Click to advise course' button, handling modal errors and retrying as needed.
+    Presses the plus button for CPE 2303L and then presses the 'Click to advise course' button, handling modal errors and retrying as needed.
     """
-    show_button_selector = "a.green.rs-modal[title*='Click to show course to be advisedCPE 2303']"
-    advise_button_selector = "a.green.rs-modal[title*='Click to advise course CPE 2303']"
+    show_button_selector = "a.green.rs-modal[title*='Click to show course to be advisedCPE 2303L']"
+    advise_button_selector = "a.green.rs-modal[title*='Click to advise course CPE 2303L']"
     # Step 1: Press the plus button to open the modal
     while True:
         try:
             show_button = wait_for_element(By.CSS_SELECTOR, show_button_selector, timeout)
             show_button.click()
-            print("Opened modal for CPE 2303.")
+            print("Opened modal for CPE 2303L.")
             break
         except TimeoutException:
-            print("Error: CPE 2303 show button did not load properly. Retrying...")
+            print("Error: CPE 2303L show button did not load properly. Retrying...")
         except WebDriverException as e:
             try:
                 modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
@@ -839,10 +839,10 @@ def advise_CPE_2303(timeout=10):
         try:
             advise_button = wait_for_element(By.CSS_SELECTOR, advise_button_selector, timeout)
             advise_button.click()
-            print("Pressed 'Click to advise course' for CPE 2303.")
+            print("Pressed 'Click to advise course' for CPE 2303L.")
             break
         except TimeoutException:
-            print("Error: CPE 2303 advise button did not load properly. Retrying...")
+            print("Error: CPE 2303L advise button did not load properly. Retrying...")
         except WebDriverException as e:
             try:
                 modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
@@ -1209,6 +1209,7 @@ def main():
     print("Navigating to Advised Course...")
     navigate_to_advise_course()
 
+    advise_CPE_2301()
     advise_CPE_2302()
 
     #print("Navigating to GE-FEL 2...")
