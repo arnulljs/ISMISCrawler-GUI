@@ -385,12 +385,9 @@ def press_GE_FEL3():
 def advise_ge_fel_course(timeout=10):
     """
     Continuously tries to press a GE-FEL button until the modal with "Successfully advised course" appears.
-
-    Args:
-        timeout: Timeout in seconds for waiting for elements (default: 10 seconds).
-
-    Returns:
-        None
+    If the modal shows 'Cannot advise course equivalent due to course schedule not available',
+    it closes the modal and prompts the user to select another GE-FEL course.
+    Handles a timeout branch for the 'Successfully advised course' modal.
     """
 
     # Pre-defined list of GE-FEL courses with full titles
@@ -408,76 +405,119 @@ def advise_ge_fel_course(timeout=10):
         ("HLT", "HEALTHY LIVING IN THE TROPICS"),
     ]
 
-    # Display the courses for the user to select
-    print("Select the GE-FEL course to advise:")
-    for idx, (code, title) in enumerate(ge_fel_courses, start=1):
-        print(f"{idx}. GE-FEL {code} - {title}")
-
-    # Prompt user for selection
-    try:
-        choice = int(input("Enter the number corresponding to the GE-FEL course: "))
-        if choice < 1 or choice > len(ge_fel_courses):
-            raise ValueError("Invalid selection.")
-        selected_course, course_title = ge_fel_courses[choice - 1]
-    except ValueError as e:
-        print(f"Error: {e}. Please restart and choose a valid option.")
-        return
-
-    # Construct the CSS selector
-    button_selector = f"a.green.rs-modal[title*='Click to advise course GE-FEL {selected_course}']"
-
-    # Retry logic to click the button and wait for the success message
     while True:
+        print("Select the GE-FEL course to advise:")
+        for idx, (code, title) in enumerate(ge_fel_courses, start=1):
+            print(f"{idx}. GE-FEL {code} - {title}")
+
+        # Prompt user for selection
         try:
-            # Wait for and click the selected GE-FEL button
-            button = wait_for_element(By.CSS_SELECTOR, button_selector, timeout)
-            button.click()
-            print(f"Attempting to advise course: GE-FEL {selected_course} - {course_title}...")
+            choice = int(input("Enter the number corresponding to the GE-FEL course: "))
+            if choice < 1 or choice > len(ge_fel_courses):
+                raise ValueError("Invalid selection.")
+            selected_course, course_title = ge_fel_courses[choice - 1]
+        except ValueError as e:
+            print(f"Error: {e}. Please restart and choose a valid option.")
+            return
 
-            # Check if the modal contains the success message
-            success_modal = wait_for_element(By.CSS_SELECTOR, "#modal2Body", timeout)
-            if "Successfully advised course" in success_modal.text:
-                print(f"Successfully advised course: GE-FEL {selected_course} - {course_title}.")
-                break
-            if "Course already been advised!" in success_modal.text:
-                print(f"Course already been advised!")
-                break
-        except TimeoutException:
-            print("Error: Free Elective Course content did not load properly. Retrying...")
+        button_selector = f"a.green.rs-modal[title*='Click to advise course GE-FEL {selected_course}']"
 
-        except WebDriverException as e:
-            # Handle potential modal issues
+        while True:
             try:
-                modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
-                if modal.is_displayed():
-                    modal_body = modal.find_element(By.CSS_SELECTOR, "#modal2Body").text.strip()
-                    
-                    if "undefined" in modal_body:
-                        # Close modal immediately for "undefined"
-                        print(f"Modal issue detected: {modal_body}. Closing modal and retrying...")
-                        ActionChains(browser).send_keys(Keys.ESCAPE).perform()
-                        print("Modal closed due to 'undefined'. Retrying immediately...")
-                        continue
-                    
-                    if "... i'm still processing your request :)" in modal_body:
-                        # Wait 10 seconds before retrying for "still processing"
-                        print(f"Modal is processing: {modal_body}. Waiting 10 seconds before retrying...")
-                        time.sleep(10)
-                        ActionChains(browser).send_keys(Keys.ESCAPE).perform()
-                        print("Modal closed after 10-second wait. Retrying...")
-                        continue
-                    
-                    if "... loading ..." in modal_body:
-                        # Wait 10 seconds before retrying for "still processing"
-                        print(f"Modal is loading: {modal_body}. Waiting 20 seconds before retrying...")
-                        time.sleep(20)
-                        ActionChains(browser).send_keys(Keys.ESCAPE).perform()
-                        print("Modal closed after 20-second wait. Retrying...")
-                        continue
-            except Exception as modal_error:
-                print(f"Error while handling modal: {modal_error}")
+                # Wait for and click the selected GE-FEL button
+                button = wait_for_element(By.CSS_SELECTOR, button_selector, timeout)
+                button.click()
+                print(f"Attempting to advise course: GE-FEL {selected_course} - {course_title}...")
 
-        time.sleep(2)  # Brief delay before retrying     
+                # Check if the modal contains the success message
+                success_modal = wait_for_element(By.CSS_SELECTOR, "#modal2Body", timeout)
+                modal_text = success_modal.text
+                if "Successfully advised course" in modal_text:
+                    print(f"Successfully advised course: GE-FEL {selected_course} - {course_title}.")
+                    try:
+                        modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                        close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
+                        close_btn.click()
+                    except Exception:
+                        pass
+                    return
+                if "Course already been advised!" in modal_text:
+                    print(f"Course already been advised!")
+                    try:
+                        modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                        close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
+                        close_btn.click()
+                    except Exception:
+                        pass
+                    return
+                if "Cannot advise course equivalent due to course schedule not available" in modal_text:
+                    print("Cannot advise course: schedule not available. Please select another GE-FEL course.")
+                    try:
+                        modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                        close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
+                        close_btn.click()
+                    except Exception:
+                        pass
+                    break  # Break inner loop, re-prompt user
+            except TimeoutException:
+                # Timeout branch: check if modal is already showing a result
+                try:
+                    modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                    if modal.is_displayed():
+                        modal_body = modal.find_element(By.CSS_SELECTOR, "#modal2Body").text.strip()
+                        if "Successfully advised course" in modal_body:
+                            print(f"Successfully advised course: GE-FEL {selected_course} - {course_title}. (Timeout branch)")
+                            try:
+                                close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
+                                close_btn.click()
+                            except Exception:
+                                pass
+                            return
+                        if "Course already been advised!" in modal_body:
+                            print(f"Course already been advised! (Timeout branch)")
+                            try:
+                                close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
+                                close_btn.click()
+                            except Exception:
+                                pass
+                            return
+                        if "Cannot advise course equivalent due to course schedule not available" in modal_body:
+                            print("Cannot advise course: schedule not available. Please select another GE-FEL course. (Timeout branch)")
+                            try:
+                                close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
+                                close_btn.click()
+                            except Exception:
+                                pass
+                            break  # Break inner loop, re-prompt user
+                except Exception:
+                    pass
+                print("Error: Free Elective Course content did not load properly. Retrying...")
+            except WebDriverException as e:
+                try:
+                    modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                    if modal.is_displayed():
+                        modal_body = modal.find_element(By.CSS_SELECTOR, "#modal2Body").text.strip()
+                        if "undefined" in modal_body:
+                            print(f"Modal issue detected: {modal_body}. Closing modal and retrying...")
+                            ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                            print("Modal closed due to 'undefined'. Retrying immediately...")
+                            continue
+                        if "... i'm still processing your request :)" in modal_body:
+                            print(f"Modal is processing: {modal_body}. Waiting 10 seconds before retrying...")
+                            time.sleep(10)
+                            ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                            print("Modal closed after 10-second wait. Retrying...")
+                            continue
+                        if "... loading ..." in modal_body:
+                            print(f"Modal is loading: {modal_body}. Waiting 20 seconds before retrying...")
+                            time.sleep(20)
+                            ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                            print("Modal closed after 20-second wait. Retrying...")
+                            continue
+                except Exception as modal_error:
+                    print(f"Error while handling modal: {modal_error}")
+            time.sleep(2)
+        # If we reach here, it means the course could not be advised due to schedule not available, so re-prompt
 
 def schedule_ge_fel_course(timeout=10):
     """
@@ -1438,27 +1478,27 @@ def main():
     print("Navigating to Advised Course...")
     navigate_to_advise_course()
 
-    advise_CPE_2301()
-    time.sleep(2)  # Wait for the modal to load properly
-    advise_CPE_2302()
-    time.sleep(2)  # Wait for the modal to load properly
-    advise_CPE_2303L
+    #advise_CPE_2301()
+    #time.sleep(2)  # Wait for the modal to load properly
+    #advise_CPE_2302()
+    #time.sleep(2)  # Wait for the modal to load properly
+    #advise_CPE_2303L
 
-    #print("Navigating to GE-FEL 2...")
-    #press_GE_FEL2()
+    print("Navigating to GE-FEL 2...")
+    press_GE_FEL2()
     
-    #print("Pressing GE-FEL AYG...")
-    #advise_ge_fel_course()
+    print("Pressing GE-FEL AYG...")
+    advise_ge_fel_course()
     
-    #schedule_ge_fel_course()
+    schedule_ge_fel_course()
     
     #schedule_CPES()
     
-    close_remaining_courses_modal()
+    #close_remaining_courses_modal()
     
-    schedule_CPE_2301()
-    schedule_CPE_2302()
-    schedule_CPE_2303L()
+    #schedule_CPE_2301()
+    #schedule_CPE_2302()
+    #schedule_CPE_2303L()
     
     print("DONE!")
     # Keep the browser open after navigation
