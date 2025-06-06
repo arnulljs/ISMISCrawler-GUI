@@ -658,7 +658,7 @@ def advise_CPE_2301(timeout=10):
             print("Opened modal for CPE 2301.")
             break
         except TimeoutException:
-            print("Error: CPE 2302 show button did not load properly. Retrying...")
+            print("Error: CPE 2301 show button did not load properly. Retrying...")
         except WebDriverException as e:
             try:
                 modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
@@ -690,8 +690,27 @@ def advise_CPE_2301(timeout=10):
             advise_button = wait_for_element(By.CSS_SELECTOR, advise_button_selector, timeout)
             advise_button.click()
             print("Pressed 'Click to advise course' for CPE 2301.")
-            break
+            # Check for success message
+            success_modal = wait_for_element(By.CSS_SELECTOR, "#modal2Body", timeout)
+            if "Successfully advised course." in success_modal.text:
+                print("Successfully advised course for CPE 2301.")
+                ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                return  # Exit the function after success
         except TimeoutException:
+            # Check if modal is already showing success
+            try:
+                modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                if modal.is_displayed():
+                    modal_body = modal.find_element(By.CSS_SELECTOR, "#modal2Body").text.strip()
+                    if "Successfully advised course." in modal_body:
+                        print("Successfully advised course for CPE 2301. (Timeout branch)")
+                        ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                        modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                        close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
+                        close_btn.click()
+                        return
+            except Exception:
+                pass
             print("Error: CPE 2301 advise button did not load properly. Retrying...")
         except WebDriverException as e:
             try:
@@ -765,8 +784,26 @@ def advise_CPE_2302(timeout=10):
             advise_button = wait_for_element(By.CSS_SELECTOR, advise_button_selector, timeout)
             advise_button.click()
             print("Pressed 'Click to advise course' for CPE 2302.")
-            break
+            # Check for success message
+            success_modal = wait_for_element(By.CSS_SELECTOR, "#modal2Body", timeout)
+            if "Successfully advised course." in success_modal.text:
+                print("Successfully advised course for CPE 2302.")
+                ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                return
         except TimeoutException:
+            try:
+                modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                if modal.is_displayed():
+                    modal_body = modal.find_element(By.CSS_SELECTOR, "#modal2Body").text.strip()
+                    if "Successfully advised course." in modal_body:
+                        ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                        print("Successfully advised course for CPE 2302. (Timeout branch)")
+                        modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                        close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
+                        close_btn.click()
+                        return
+            except Exception:
+                pass
             print("Error: CPE 2302 advise button did not load properly. Retrying...")
         except WebDriverException as e:
             try:
@@ -840,8 +877,26 @@ def advise_CPE_2303L(timeout=10):
             advise_button = wait_for_element(By.CSS_SELECTOR, advise_button_selector, timeout)
             advise_button.click()
             print("Pressed 'Click to advise course' for CPE 2303L.")
-            break
+            # Check for success message
+            success_modal = wait_for_element(By.CSS_SELECTOR, "#modal2Body", timeout)
+            if "Successfully advised course." in success_modal.text:
+                print("Successfully advised course for CPE 2303L.")
+                ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                return
         except TimeoutException:
+            try:
+                modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                if modal.is_displayed():
+                    modal_body = modal.find_element(By.CSS_SELECTOR, "#modal2Body").text.strip()
+                    if "Successfully advised course." in modal_body:
+                        ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                        print("Successfully advised course for CPE 2303L. (Timeout branch)")
+                        modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                        close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
+                        close_btn.click()
+                        return
+            except Exception:
+                pass
             print("Error: CPE 2303L advise button did not load properly. Retrying...")
         except WebDriverException as e:
             try:
@@ -968,6 +1023,7 @@ def schedule_CPES(timeout=10):
 def schedule_CPE_2301(timeout=10):
     """
     Prints all available schedule details for CPE 2301, with robust modal and retry logic.
+    After printing, it will close the modal (ESC).
     """
     button_selector = f"a.green.rs-modal[title*='Click to view schedule  CPE 2301']"
     while True:
@@ -995,6 +1051,8 @@ def schedule_CPE_2301(timeout=10):
                 print(f"Population: {population}")
                 print(f"Link: {link}")
                 print("-" * 40)
+            # Escape/close modal after printing all
+            ActionChains(browser).send_keys(Keys.ESCAPE).perform()
             break
         except TimeoutException:
             print("Error: CPE 2301 Schedule content did not load properly. Retrying...")
@@ -1054,6 +1112,8 @@ def schedule_CPE_2302(timeout=10):
                 print(f"Population: {population}")
                 print(f"Link: {link}")
                 print("-" * 40)
+            # Escape/close modal after printing all
+            ActionChains(browser).send_keys(Keys.ESCAPE).perform()
             break
         except TimeoutException:
             print("Error: CPE 2302 Schedule content did not load properly. Retrying...")
@@ -1113,6 +1173,8 @@ def schedule_CPE_2303L(timeout=10):
                 print(f"Population: {population}")
                 print(f"Link: {link}")
                 print("-" * 40)
+            # Escape/close modal after printing all
+            ActionChains(browser).send_keys(Keys.ESCAPE).perform()
             break
         except TimeoutException:
             print("Error: CPE 2303L Schedule content did not load properly. Retrying...")
@@ -1141,7 +1203,7 @@ def schedule_CPE_2303L(timeout=10):
             except Exception as modal_error:
                 print(f"Error while handling modal: {modal_error}")
         time.sleep(2)
-        
+
 def navigate_to_block_advising():
     """Navigates to the Block Advising section."""
     browser.get("https://ismis.usc.edu.ph/advisedcourse")
@@ -1221,6 +1283,8 @@ def main():
     #schedule_ge_fel_course()
     
     #schedule_CPES()
+    
+    ActionChains(browser).send_keys(Keys.ESCAPE).perform()
     
     schedule_CPE_2301()
     schedule_CPE_2302()
