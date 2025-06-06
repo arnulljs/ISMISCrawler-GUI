@@ -1203,7 +1203,23 @@ def schedule_CPE_2303L(timeout=10):
             except Exception as modal_error:
                 print(f"Error while handling modal: {modal_error}")
         time.sleep(2)
-
+        
+def close_remaining_courses_modal(timeout=10):
+    """
+    Closes the 'Remaining Courses To Be Advised' modal (#modal1) by clicking its close button.
+    """
+    try:
+        # Wait for the modal to be present and visible
+        modal = WebDriverWait(browser, timeout).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, "#modal1"))
+        )
+        # Find the close button inside the modal header
+        close_btn = modal.find_element(By.CSS_SELECTOR, "div.tools > a.remove[data-dismiss='modal']")
+        close_btn.click()
+        print("Closed 'Remaining Courses To Be Advised' modal.")
+    except Exception as e:
+        print(f"Could not close 'Remaining Courses To Be Advised' modal: {e}")
+        
 def navigate_to_block_advising():
     """Navigates to the Block Advising section."""
     browser.get("https://ismis.usc.edu.ph/advisedcourse")
@@ -1272,6 +1288,7 @@ def main():
     navigate_to_advise_course()
 
     advise_CPE_2301()
+    time.sleep(2)  # Wait for the modal to load properly
     advise_CPE_2302()
 
     #print("Navigating to GE-FEL 2...")
@@ -1283,8 +1300,7 @@ def main():
     #schedule_ge_fel_course()
     
     #schedule_CPES()
-    
-    ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+    close_remaining_courses_modal()
     
     schedule_CPE_2301()
     schedule_CPE_2302()
