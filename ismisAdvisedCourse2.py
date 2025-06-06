@@ -1441,6 +1441,8 @@ def main():
     advise_CPE_2301()
     time.sleep(2)  # Wait for the modal to load properly
     advise_CPE_2302()
+    time.sleep(2)  # Wait for the modal to load properly
+    advise_CPE_2303L
 
     #print("Navigating to GE-FEL 2...")
     #press_GE_FEL2()
@@ -1451,6 +1453,7 @@ def main():
     #schedule_ge_fel_course()
     
     #schedule_CPES()
+    
     close_remaining_courses_modal()
     
     schedule_CPE_2301()
