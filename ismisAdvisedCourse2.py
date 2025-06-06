@@ -388,6 +388,7 @@ def advise_ge_fel_course(timeout=10):
     If the modal shows 'Cannot advise course equivalent due to course schedule not available',
     it closes the modal and prompts the user to select another GE-FEL course.
     Handles a timeout branch for the 'Successfully advised course' modal.
+    Stops asking after a successful advise or already advised.
     """
 
     # Pre-defined list of GE-FEL courses with full titles
@@ -440,7 +441,7 @@ def advise_ge_fel_course(timeout=10):
                         close_btn.click()
                     except Exception:
                         pass
-                    return
+                    return  # Stop asking after success
                 if "Course already been advised!" in modal_text:
                     print(f"Course already been advised!")
                     try:
@@ -449,7 +450,7 @@ def advise_ge_fel_course(timeout=10):
                         close_btn.click()
                     except Exception:
                         pass
-                    return
+                    return  # Stop asking after already advised
                 if "Cannot advise course equivalent due to course schedule not available" in modal_text:
                     print("Cannot advise course: schedule not available. Please select another GE-FEL course.")
                     try:
