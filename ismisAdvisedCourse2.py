@@ -647,6 +647,7 @@ def schedule_ge_fel_course(timeout=10):
 def advise_CPE_2301(timeout=10):
     """
     Presses the plus button for CPE 2301 and then presses the 'Click to advise course' button, handling modal errors and retrying as needed.
+    Handles 'Course already been advised!' as a success state.
     """
     show_button_selector = "a.green.rs-modal[title*='Click to show course to be advisedCPE 2301']"
     advise_button_selector = "a.green.rs-modal[title*='Click to advise course CPE 2301']"
@@ -690,22 +691,45 @@ def advise_CPE_2301(timeout=10):
             advise_button = wait_for_element(By.CSS_SELECTOR, advise_button_selector, timeout)
             advise_button.click()
             print("Pressed 'Click to advise course' for CPE 2301.")
-            # Check for success message
+            # Check for success, already advised, or max units message
             success_modal = wait_for_element(By.CSS_SELECTOR, "#modal2Body", timeout)
-            if "Successfully advised course." in success_modal.text:
+            modal_text = success_modal.text
+            if "Successfully advised course." in modal_text:
                 print("Successfully advised course for CPE 2301.")
-                ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
+                close_btn.click()
                 return  # Exit the function after success
+            if "Course already been advised!" in modal_text:
+                print("Course already been advised for CPE 2301.")
+                modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
+                close_btn.click()
+                return  # Exit the function after already advised
+            if "Student has reached the maximum number of units allowed for the term." in modal_text:
+                print("Maximum units reached for the term. Ending advise for CPE 2301.")
+                modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
+                close_btn.click()
+                return  # Exit the function after max units
         except TimeoutException:
-            # Check if modal is already showing success
+            # Check if modal is already showing success, already advised, or max units
             try:
                 modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
                 if modal.is_displayed():
                     modal_body = modal.find_element(By.CSS_SELECTOR, "#modal2Body").text.strip()
                     if "Successfully advised course." in modal_body:
                         print("Successfully advised course for CPE 2301. (Timeout branch)")
-                        ActionChains(browser).send_keys(Keys.ESCAPE).perform()
-                        modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                        close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
+                        close_btn.click()
+                        return
+                    if "Course already been advised!" in modal_body:
+                        print("Course already been advised for CPE 2301. (Timeout branch)")
+                        close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
+                        close_btn.click()
+                        return
+                    if "Student has reached the maximum number of units allowed for the term." in modal_body:
+                        print("Maximum units reached for the term. (Timeout branch)")
                         close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
                         close_btn.click()
                         return
@@ -741,6 +765,7 @@ def advise_CPE_2301(timeout=10):
 def advise_CPE_2302(timeout=10):
     """
     Presses the plus button for CPE 2302 and then presses the 'Click to advise course' button, handling modal errors and retrying as needed.
+    Handles 'Course already been advised!' as a success state.
     """
     show_button_selector = "a.green.rs-modal[title*='Click to show course to be advisedCPE 2302']"
     advise_button_selector = "a.green.rs-modal[title*='Click to advise course CPE 2302']"
@@ -784,21 +809,45 @@ def advise_CPE_2302(timeout=10):
             advise_button = wait_for_element(By.CSS_SELECTOR, advise_button_selector, timeout)
             advise_button.click()
             print("Pressed 'Click to advise course' for CPE 2302.")
-            # Check for success message
+            # Check for success, already advised, or max units message
             success_modal = wait_for_element(By.CSS_SELECTOR, "#modal2Body", timeout)
-            if "Successfully advised course." in success_modal.text:
+            modal_text = success_modal.text
+            if "Successfully advised course." in modal_text:
                 print("Successfully advised course for CPE 2302.")
-                ActionChains(browser).send_keys(Keys.ESCAPE).perform()
-                return
+                modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
+                close_btn.click()
+                return  # Exit the function after success
+            if "Course already been advised!" in modal_text:
+                print("Course already been advised for CPE 2302.")
+                modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
+                close_btn.click()
+                return  # Exit the function after already advised
+            if "Student has reached the maximum number of units allowed for the term." in modal_text:
+                print("Maximum units reached for the term. Ending advise for CPE 2302.")
+                modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
+                close_btn.click()
+                return  # Exit the function after max units
         except TimeoutException:
+            # Check if modal is already showing success, already advised, or max units
             try:
                 modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
                 if modal.is_displayed():
                     modal_body = modal.find_element(By.CSS_SELECTOR, "#modal2Body").text.strip()
                     if "Successfully advised course." in modal_body:
-                        ActionChains(browser).send_keys(Keys.ESCAPE).perform()
                         print("Successfully advised course for CPE 2302. (Timeout branch)")
-                        modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                        close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
+                        close_btn.click()
+                        return
+                    if "Course already been advised!" in modal_body:
+                        print("Course already been advised for CPE 2302. (Timeout branch)")
+                        close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
+                        close_btn.click()
+                        return
+                    if "Student has reached the maximum number of units allowed for the term." in modal_body:
+                        print("Maximum units reached for the term. (Timeout branch)")
                         close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
                         close_btn.click()
                         return
@@ -834,6 +883,7 @@ def advise_CPE_2302(timeout=10):
 def advise_CPE_2303L(timeout=10):
     """
     Presses the plus button for CPE 2303L and then presses the 'Click to advise course' button, handling modal errors and retrying as needed.
+    Handles 'Course already been advised!' as a success state.
     """
     show_button_selector = "a.green.rs-modal[title*='Click to show course to be advisedCPE 2303L']"
     advise_button_selector = "a.green.rs-modal[title*='Click to advise course CPE 2303L']"
@@ -877,21 +927,45 @@ def advise_CPE_2303L(timeout=10):
             advise_button = wait_for_element(By.CSS_SELECTOR, advise_button_selector, timeout)
             advise_button.click()
             print("Pressed 'Click to advise course' for CPE 2303L.")
-            # Check for success message
+            # Check for success, already advised, or max units message
             success_modal = wait_for_element(By.CSS_SELECTOR, "#modal2Body", timeout)
-            if "Successfully advised course." in success_modal.text:
+            modal_text = success_modal.text
+            if "Successfully advised course." in modal_text:
                 print("Successfully advised course for CPE 2303L.")
-                ActionChains(browser).send_keys(Keys.ESCAPE).perform()
-                return
+                modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
+                close_btn.click()
+                return  # Exit the function after success
+            if "Course already been advised!" in modal_text:
+                print("Course already been advised for CPE 2303L.")
+                modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
+                close_btn.click()
+                return  # Exit the function after already advised
+            if "Student has reached the maximum number of units allowed for the term." in modal_text:
+                print("Maximum units reached for the term. Ending advise for CPE 2303L.")
+                modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
+                close_btn.click()
+                return  # Exit the function after max units
         except TimeoutException:
+            # Check if modal is already showing success, already advised, or max units
             try:
                 modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
                 if modal.is_displayed():
                     modal_body = modal.find_element(By.CSS_SELECTOR, "#modal2Body").text.strip()
                     if "Successfully advised course." in modal_body:
-                        ActionChains(browser).send_keys(Keys.ESCAPE).perform()
                         print("Successfully advised course for CPE 2303L. (Timeout branch)")
-                        modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                        close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
+                        close_btn.click()
+                        return
+                    if "Course already been advised!" in modal_body:
+                        print("Course already been advised for CPE 2303L. (Timeout branch)")
+                        close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
+                        close_btn.click()
+                        return
+                    if "Student has reached the maximum number of units allowed for the term." in modal_body:
+                        print("Maximum units reached for the term. (Timeout branch)")
                         close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
                         close_btn.click()
                         return
