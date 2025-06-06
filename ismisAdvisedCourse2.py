@@ -229,21 +229,6 @@ def press_advised_course():
             # Wait for the page or content to load
             WebDriverWait(browser, 10).until(
                 EC.presence_of_element_located((By.ID, "ChooseToAdviseBody")) 
-                
-                #a.green.rs-modal[title*='GE-FREELEC 2']
-                #title="Click to show course to be advisedGE-FREELEC 2"
-                #title="Click to show course to be advisedGE-FREELEC 3"
-                
-                
-                #ToBeAdviseBody for free elecs?
-                
-                #"a.green.rs-modal[title*='GE-FEL EW-AYG']") #for GE-FEL EW-AYG
-                #"a.green.rs-modal[title*='GE-FEL TPDD']") #for GE-FEL TPDD
-                #title="Click to advise course GE-FEL EW-AYG"
-                #title="Click to advise course GE-FEL TPDD"
-                
-                
-                #Course already been advised!
             )
             print("Advised Course content loaded successfully.")
 
@@ -299,18 +284,6 @@ def press_GE_FEL2():
             # Wait for the page or content to load
             WebDriverWait(browser, 10).until(
                 EC.presence_of_element_located((By.ID, "ToBeAdviseBody")) 
-                
-                #a.green.rs-modal[title*='GE-FREELEC 2']
-                #title="Click to show course to be advisedGE-FREELEC 2"
-                #title="Click to show course to be advisedGE-FREELEC 3"
-                
-                
-                #ToBeAdviseBody for free elecs?
-                
-                #"a.green.rs-modal[title*='GE-FEL EW-AYG']") #for GE-FEL EW-AYG
-                #"a.green.rs-modal[title*='GE-FEL TPDD']") #for GE-FEL TPDD
-                #title="Click to advise course GE-FEL EW-AYG"
-                #title="Click to advise course GE-FEL TPDD"
             )
             print("GE-FEL 2 Course content loaded successfully.")
 
@@ -366,18 +339,6 @@ def press_GE_FEL3():
             # Wait for the page or content to load
             WebDriverWait(browser, 10).until(
                 EC.presence_of_element_located((By.ID, "ToBeAdviseBody")) 
-                
-                #a.green.rs-modal[title*='GE-FREELEC 2']
-                #title="Click to show course to be advisedGE-FREELEC 2"
-                #title="Click to show course to be advisedGE-FREELEC 3"
-                
-                
-                #ToBeAdviseBody for free elecs?
-                
-                #"a.green.rs-modal[title*='GE-FEL EW-AYG']") #for GE-FEL EW-AYG
-                #"a.green.rs-modal[title*='GE-FEL TPDD']") #for GE-FEL TPDD
-                #title="Click to advise course GE-FEL EW-AYG"
-                #title="Click to advise course GE-FEL TPDD"
             )
             print("GE-FEL 3 Course content loaded successfully.")
 
