@@ -1471,7 +1471,8 @@ def main():
     # Demonstrate button interactions
     #print("Navigating to Block Advising...")
     #time.sleep(10)
-    #navigate_to_block_advising() this is for block enrollment which is not needed for now
+    #navigate_to_block_advising() this is for block enrollment which allows u to get the links to the scheds of the blocks you want.
+    #you do still need to get the complete link when u press enroll block section which means either you need to refresh or run this script again whichever is easier.
 
     #print("Navigating to View Lacking...")
     #navigate_to_view_lacking() this is for view lacking if you want to for some reason.
