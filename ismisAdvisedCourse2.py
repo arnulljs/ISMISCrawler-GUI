@@ -1471,35 +1471,40 @@ def main():
     # Demonstrate button interactions
     #print("Navigating to Block Advising...")
     #time.sleep(10)
-    #navigate_to_block_advising()
+    #navigate_to_block_advising() this is for block enrollment which is not needed for now
 
     #print("Navigating to View Lacking...")
-    #navigate_to_view_lacking()
+    #navigate_to_view_lacking() this is for view lacking if you want to for some reason.
 
+    #this block of code is for advising courses for non block. you can edit the functions to do the individual courses you want to advise.
+    # then print their schedules and href link which leads to faster requests to the server since its what you press instead of clicking add.
     print("Navigating to Advised Course...")
     navigate_to_advise_course()
 
-    #advise_CPE_2301()
-    #time.sleep(2)  # Wait for the modal to load properly
-    #advise_CPE_2302()
-    #time.sleep(2)  # Wait for the modal to load properly
-    #advise_CPE_2303L
-
-    print("Navigating to GE-FEL 2...")
-    press_GE_FEL2()
+    advise_CPE_2301()
+    time.sleep(2)  # Wait for the modal to load properly
+    advise_CPE_2302()
+    time.sleep(2)  # Wait for the modal to load properly
+    advise_CPE_2303L
     
-    print("Pressing GE-FEL AYG...")
-    advise_ge_fel_course()
+    close_remaining_courses_modal()
     
-    schedule_ge_fel_course()
+    schedule_CPE_2301()
+    schedule_CPE_2302()
+    schedule_CPE_2303L()
     
-    #schedule_CPES()
+    # this block of code is for enrolling in GE-FEL courses which is not needed for now.
+    #print("Navigating to Advised Course...")
+    #navigate_to_advise_course()
+    #print("Navigating to GE-FEL 2...")
+    #press_GE_FEL2()
+    #print("Pressing GE-FEL AYG...")
+    #advise_ge_fel_course() the advise ge fel course is a bit broken though due to it not being able to handle success properly yet. will fix soon
+    #schedule_ge_fel_course() 
     
-    #close_remaining_courses_modal()
+    #schedule_CPES() initial test to see schedule of a certain course. hte schedule cpe is much better i think
     
-    #schedule_CPE_2301()
-    #schedule_CPE_2302()
-    #schedule_CPE_2303L()
+    
     
     print("DONE!")
     # Keep the browser open after navigation
