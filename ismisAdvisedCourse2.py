@@ -1047,6 +1047,24 @@ def main():
     print("Navigating to Advised Course...")
     navigate_to_advise_course()
 
+    print("Navigating to CPES 2301...")
+    press_CPE_2301_show()
+    link = get_CPE_2301_advise_link()
+    print(f"CPE 2301 advise link: {link}")
+    ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+
+    print("Navigating to CPES 2302...")
+    press_CPE_2302_show()
+    link = get_CPE_2302_advise_link()
+    print(f"CPE 2302 advise link: {link}")
+    ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+
+    print("Navigating to CPES 2303L...")
+    press_CPE_2303L_show()
+    link = get_CPE_2303L_advise_link()
+    print(f"CPE 2303L advise link: {link}")
+    ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+
     #print("Navigating to GE-FEL 2...")
     #press_GE_FEL2()
     
