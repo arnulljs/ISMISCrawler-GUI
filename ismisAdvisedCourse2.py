@@ -1130,12 +1130,30 @@ def schedule_CPES(timeout=10):
 def schedule_CPE_2301(timeout=10):
     """
     Prints all available schedule details for CPE 2301, with robust modal and retry logic.
-    After printing, it will close the modal (ESC).
+    Checks if the course is in the advised list before attempting to view schedule.
     """
+    # First, check if CPE 2301 is in the advised course list
+    advised_courses = browser.find_elements(By.CSS_SELECTOR, "#AdvisedCourseList tr")
+    found = False
+    for row in advised_courses:
+        try:
+            code = row.find_element(By.CSS_SELECTOR, "td").text.strip()
+            if code.endswith("CPE 2301"):
+                found = True
+                break
+        except Exception:
+            continue
+    if not found:
+        print("CPE 2301 is not in the advised course list. Skipping schedule view.")
+        return
     button_selector = f"a.green.rs-modal[title*='Click to view schedule  CPE 2301']"
+    try:
+        button = wait_for_element(By.CSS_SELECTOR, button_selector, timeout)
+    except TimeoutException:
+        print("No 'Click to view schedule' button found for CPE 2301. Skipping.")
+        return
     while True:
         try:
-            button = wait_for_element(By.CSS_SELECTOR, button_selector, timeout)
             button.click()
             print(f"Attempting to view schedule: CPE 2301")
             WebDriverWait(browser, 10).until(
@@ -1143,21 +1161,28 @@ def schedule_CPE_2301(timeout=10):
             )
             print("Schedule loaded successfully.")
             schedule_sections = browser.find_elements(By.CSS_SELECTOR, "#EnrollBody tr")
+            if not schedule_sections:
+                print("No schedule details found for CPE 2301.")
+                ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                break
             for schedule_section in schedule_sections:
-                block_number = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(1)").text.strip()
-                course_code = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(2)").text.strip()
-                schedule_details = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(3) span").text.strip()
-                course_status = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(4)").text.strip()
-                population = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(5)").text.strip()
-                link_element = schedule_section.find_element(By.CSS_SELECTOR, "a.green.rs-modal")
-                link = link_element.get_attribute("href")
-                print(f"Block #: {block_number}")
-                print(f"Course Code: {course_code}")
-                print(f"Schedule: {schedule_details}")
-                print(f"Course Status: {course_status}")
-                print(f"Population: {population}")
-                print(f"Link: {link}")
-                print("-" * 40)
+                try:
+                    block_number = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(1)").text.strip()
+                    course_code = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(2)").text.strip()
+                    schedule_details = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(3) span").text.strip()
+                    course_status = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(4)").text.strip()
+                    population = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(5)").text.strip()
+                    link_element = schedule_section.find_element(By.CSS_SELECTOR, "a.green.rs-modal")
+                    link = link_element.get_attribute("href")
+                    print(f"Block #: {block_number}")
+                    print(f"Course Code: {course_code}")
+                    print(f"Schedule: {schedule_details}")
+                    print(f"Course Status: {course_status}")
+                    print(f"Population: {population}")
+                    print(f"Link: {link}")
+                    print("-" * 40)
+                except Exception:
+                    print("A schedule row was missing expected details and was skipped.")
             # Escape/close modal after printing all
             ActionChains(browser).send_keys(Keys.ESCAPE).perform()
             break
@@ -1192,7 +1217,21 @@ def schedule_CPE_2301(timeout=10):
 def schedule_CPE_2302(timeout=10):
     """
     Prints all available schedule details for CPE 2302, with robust modal and retry logic.
+    Checks if the course is in the advised list before attempting to view schedule.
     """
+    advised_courses = browser.find_elements(By.CSS_SELECTOR, "#AdvisedCourseList tr")
+    found = False
+    for row in advised_courses:
+        try:
+            code = row.find_element(By.CSS_SELECTOR, "td").text.strip()
+            if code.endswith("CPE 2302"):
+                found = True
+                break
+        except Exception:
+            continue
+    if not found:
+        print("CPE 2302 is not in the advised course list. Skipping schedule view.")
+        return
     button_selector = f"a.green.rs-modal[title*='Click to view schedule  CPE 2302']"
     while True:
         try:
@@ -1204,43 +1243,58 @@ def schedule_CPE_2302(timeout=10):
             )
             print("Schedule loaded successfully.")
             schedule_sections = browser.find_elements(By.CSS_SELECTOR, "#EnrollBody tr")
+            if not schedule_sections:
+                print("No schedule details found for CPE 2302.")
+                ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                break
             for schedule_section in schedule_sections:
-                block_number = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(1)").text.strip()
-                course_code = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(2)").text.strip()
-                schedule_details = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(3) span").text.strip()
-                course_status = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(4)").text.strip()
-                population = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(5)").text.strip()
-                link_element = schedule_section.find_element(By.CSS_SELECTOR, "a.green.rs-modal")
-                link = link_element.get_attribute("href")
-                print(f"Block #: {block_number}")
-                print(f"Course Code: {course_code}")
-                print(f"Schedule: {schedule_details}")
-                print(f"Course Status: {course_status}")
-                print(f"Population: {population}")
-                print(f"Link: {link}")
-                print("-" * 40)
+                try:
+                    block_number = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(1)").text.strip()
+                    course_code = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(2)").text.strip()
+                    schedule_details = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(3) span").text.strip()
+                    course_status = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(4)").text.strip()
+                    population = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(5)").text.strip()
+                    link_element = schedule_section.find_element(By.CSS_SELECTOR, "a.green.rs-modal")
+                    link = link_element.get_attribute("href")
+                    print(f"Block #: {block_number}")
+                    print(f"Course Code: {course_code}")
+                    print(f"Schedule: {schedule_details}")
+                    print(f"Course Status: {course_status}")
+                    print(f"Population: {population}")
+                    print(f"Link: {link}")
+                    print("-" * 40)
+                except Exception:
+                    print("A schedule row was missing expected details and was skipped.")
             # Escape/close modal after printing all
             ActionChains(browser).send_keys(Keys.ESCAPE).perform()
             break
         except TimeoutException:
             print("Error: CPE 2302 Schedule content did not load properly. Retrying...")
+
         except WebDriverException as e:
+            # Handle potential modal issues
             try:
                 modal = browser.find_element(By.CSS_SELECTOR, "#modal1")
                 if modal.is_displayed():
                     modal_body = modal.find_element(By.CSS_SELECTOR, "#modal1Body").text.strip()
+                    
                     if "undefined" in modal_body:
+                        # Close modal immediately for "undefined"
                         print(f"Modal issue detected: {modal_body}. Closing modal and retrying...")
                         ActionChains(browser).send_keys(Keys.ESCAPE).perform()
                         print("Modal closed due to 'undefined'. Retrying immediately...")
                         continue
+                    
                     if "... i'm still processing your request :)" in modal_body:
+                        # Wait 10 seconds before retrying for "still processing"
                         print(f"Modal is processing: {modal_body}. Waiting 10 seconds before retrying...")
                         time.sleep(10)
                         ActionChains(browser).send_keys(Keys.ESCAPE).perform()
                         print("Modal closed after 10-second wait. Retrying...")
                         continue
+                    
                     if "... loading ..." in modal_body:
+                        # Wait 10 seconds before retrying for "still processing"
                         print(f"Modal is loading: {modal_body}. Waiting 20 seconds before retrying...")
                         time.sleep(20)
                         ActionChains(browser).send_keys(Keys.ESCAPE).perform()
@@ -1253,7 +1307,21 @@ def schedule_CPE_2302(timeout=10):
 def schedule_CPE_2303L(timeout=10):
     """
     Prints all available schedule details for CPE 2303L, with robust modal and retry logic.
+    Checks if the course is in the advised list before attempting to view schedule.
     """
+    advised_courses = browser.find_elements(By.CSS_SELECTOR, "#AdvisedCourseList tr")
+    found = False
+    for row in advised_courses:
+        try:
+            code = row.find_element(By.CSS_SELECTOR, "td").text.strip()
+            if code.endswith("CPE 2303L"):
+                found = True
+                break
+        except Exception:
+            continue
+    if not found:
+        print("CPE 2303L is not in the advised course list. Skipping schedule view.")
+        return
     button_selector = f"a.green.rs-modal[title*='Click to view schedule  CPE 2303L']"
     while True:
         try:
@@ -1265,43 +1333,58 @@ def schedule_CPE_2303L(timeout=10):
             )
             print("Schedule loaded successfully.")
             schedule_sections = browser.find_elements(By.CSS_SELECTOR, "#EnrollBody tr")
+            if not schedule_sections:
+                print("No schedule details found for CPE 2303L.")
+                ActionChains(browser).send_keys(Keys.ESCAPE).perform()
+                break
             for schedule_section in schedule_sections:
-                block_number = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(1)").text.strip()
-                course_code = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(2)").text.strip()
-                schedule_details = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(3) span").text.strip()
-                course_status = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(4)").text.strip()
-                population = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(5)").text.strip()
-                link_element = schedule_section.find_element(By.CSS_SELECTOR, "a.green.rs-modal")
-                link = link_element.get_attribute("href")
-                print(f"Block #: {block_number}")
-                print(f"Course Code: {course_code}")
-                print(f"Schedule: {schedule_details}")
-                print(f"Course Status: {course_status}")
-                print(f"Population: {population}")
-                print(f"Link: {link}")
-                print("-" * 40)
+                try:
+                    block_number = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(1)").text.strip()
+                    course_code = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(2)").text.strip()
+                    schedule_details = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(3) span").text.strip()
+                    course_status = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(4)").text.strip()
+                    population = schedule_section.find_element(By.CSS_SELECTOR, "td:nth-child(5)").text.strip()
+                    link_element = schedule_section.find_element(By.CSS_SELECTOR, "a.green.rs-modal")
+                    link = link_element.get_attribute("href")
+                    print(f"Block #: {block_number}")
+                    print(f"Course Code: {course_code}")
+                    print(f"Schedule: {schedule_details}")
+                    print(f"Course Status: {course_status}")
+                    print(f"Population: {population}")
+                    print(f"Link: {link}")
+                    print("-" * 40)
+                except Exception:
+                    print("A schedule row was missing expected details and was skipped.")
             # Escape/close modal after printing all
             ActionChains(browser).send_keys(Keys.ESCAPE).perform()
             break
         except TimeoutException:
             print("Error: CPE 2303L Schedule content did not load properly. Retrying...")
+
         except WebDriverException as e:
+            # Handle potential modal issues
             try:
                 modal = browser.find_element(By.CSS_SELECTOR, "#modal1")
                 if modal.is_displayed():
                     modal_body = modal.find_element(By.CSS_SELECTOR, "#modal1Body").text.strip()
+                    
                     if "undefined" in modal_body:
+                        # Close modal immediately for "undefined"
                         print(f"Modal issue detected: {modal_body}. Closing modal and retrying...")
                         ActionChains(browser).send_keys(Keys.ESCAPE).perform()
                         print("Modal closed due to 'undefined'. Retrying immediately...")
                         continue
+                    
                     if "... i'm still processing your request :)" in modal_body:
+                        # Wait 10 seconds before retrying for "still processing"
                         print(f"Modal is processing: {modal_body}. Waiting 10 seconds before retrying...")
                         time.sleep(10)
                         ActionChains(browser).send_keys(Keys.ESCAPE).perform()
                         print("Modal closed after 10-second wait. Retrying...")
                         continue
+                    
                     if "... loading ..." in modal_body:
+                        # Wait 10 seconds before retrying for "still processing"
                         print(f"Modal is loading: {modal_body}. Waiting 20 seconds before retrying...")
                         time.sleep(20)
                         ActionChains(browser).send_keys(Keys.ESCAPE).perform()
@@ -1310,7 +1393,7 @@ def schedule_CPE_2303L(timeout=10):
             except Exception as modal_error:
                 print(f"Error while handling modal: {modal_error}")
         time.sleep(2)
-        
+
 def close_remaining_courses_modal(timeout=10):
     """
     Closes the 'Remaining Courses To Be Advised' modal (#modal1) by clicking its close button.
@@ -1411,6 +1494,7 @@ def main():
     
     schedule_CPE_2301()
     schedule_CPE_2302()
+    schedule_CPE_2303L()
     
     print("DONE!")
     # Keep the browser open after navigation
