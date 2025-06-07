@@ -41,3 +41,12 @@ January 10, 2025
 - Implemented to display the possible schedules and their corresponding links after advising.
 - Implemented function that makes it possible to also do it for separate courses as long as you know their course code. Will maybe make it user inputtable so that they can put the course code of the course they want? (line 662)
 - Need to expand the list of free electives soon. (lines 425 and 523)
+
+June 6, 2025
+- Major improvements to course advising and scheduling automation:
+  - Robustly handle modal dialogs for all course advising and scheduling actions, including timeouts, 'undefined', 'loading', and 'still processing' states.
+  - Advise and schedule functions now check for course presence in the advised list before proceeding, and skip or retry as appropriate.
+  - GE-FEL advising now properly exits after a successful advise or if the course is already advised, and will re-prompt the user only if the course cannot be advised due to schedule unavailability.
+  - All schedule viewing functions print schedule details only if present, and skip rows with missing information.
+  - Ensured all modals are closed after actions, preventing stuck states and repeated prompts.
+- Noted code redundancy in course handling; refactoring to generalize course code logic is under consideration.
