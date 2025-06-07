@@ -525,7 +525,7 @@ def advise_ge_fel_course(timeout=10):
                             except Exception:
                                 pass
                             time.sleep(2)  # Wait before retrying
-                            press_GE_FEL2()  # Retry with GE-FEL 2 this is the important line of code to change which ge_fel.
+                            press_GE_FEL2()  # Retry with GE-FEL 2 i dont think it matters which ge_fel since its the same course.
                             break
                 except Exception:
                     pass
@@ -1505,31 +1505,31 @@ def main():
     #this block of code is for advising courses for non block. you can edit the functions to do the individual courses you want to advise.
     # then print their schedules and href link which leads to faster requests to the server since its what you press instead of clicking add.
     
-    # print("Navigating to Advised Course...")
-    # navigate_to_advise_course()
-
-    # advise_CPE_2301()
-    # time.sleep(2)  # Wait for the modal to load properly
-    # advise_CPE_2302()
-    # time.sleep(2)  # Wait for the modal to load properly
-    # advise_CPE_2303L
-    
-    # close_remaining_courses_modal()
-    
-    # schedule_CPE_2301()
-    # schedule_CPE_2302()
-    # schedule_CPE_2303L()
-    
-    # this block of code is for enrolling in GE-FEL courses which is not needed for now.
     print("Navigating to Advised Course...")
     navigate_to_advise_course()
-    print("Navigating to GE-FEL 2...")
-    press_GE_FEL2()
-    print("Pressing GE-FEL AYG...")
-    advise_ge_fel_course() #the advise ge fel course is a bit broken though due to it not being able to handle success properly yet. will fix soon
+
+    advise_CPE_2301()
     time.sleep(2)  # Wait for the modal to load properly
+    advise_CPE_2302()
+    time.sleep(2)  # Wait for the modal to load properly
+    advise_CPE_2303L
+    
     close_remaining_courses_modal()
-    schedule_ge_fel_course() #can call this multiple times to get the schedules of the ge fel courses you want.
+    
+    schedule_CPE_2301()
+    schedule_CPE_2302()
+    schedule_CPE_2303L()
+    
+    # this block of code is for enrolling in GE-FEL courses which is not needed for now.
+    # print("Navigating to Advised Course...")
+    # navigate_to_advise_course()
+    # print("Navigating to GE-FEL 2...")
+    # press_GE_FEL2()
+    # print("Pressing GE-FEL AYG...")
+    # advise_ge_fel_course() #the advise ge fel course is a bit broken though due to it not being able to handle success properly yet. will fix soon
+    # time.sleep(2)  # Wait for the modal to load properly
+    # close_remaining_courses_modal()
+    # schedule_ge_fel_course() #can call this multiple times to get the schedules of the ge fel courses you want.
     
     #schedule_CPES() initial test to see schedule of a certain course. hte schedule cpe is much better i think
     
