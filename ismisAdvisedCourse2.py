@@ -1527,7 +1527,7 @@ def main():
     advise_ge_fel_course() #the advise ge fel course is a bit broken though due to it not being able to handle success properly yet. will fix soon
     time.sleep(2)  # Wait for the modal to load properly
     close_remaining_courses_modal()
-    schedule_ge_fel_course() 
+    schedule_ge_fel_course() #can call this multiple times to get the schedules of the ge fel courses you want.
     
     #schedule_CPES() initial test to see schedule of a certain course. hte schedule cpe is much better i think
     
