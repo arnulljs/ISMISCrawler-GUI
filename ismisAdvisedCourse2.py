@@ -389,6 +389,7 @@ def advise_ge_fel_course(timeout=10):
     it closes the modal and prompts the user to select another GE-FEL course.
     Handles a timeout branch for the 'Successfully advised course' modal.
     Stops asking after a successful advise or already advised.
+    Prints modal text for debugging if unexpected behavior occurs.
     """
 
     # Pre-defined list of GE-FEL courses with full titles
@@ -423,7 +424,8 @@ def advise_ge_fel_course(timeout=10):
 
         button_selector = f"a.green.rs-modal[title*='Click to advise course GE-FEL {selected_course}']"
 
-        while True:
+        advised_or_success = False
+        while not advised_or_success:
             try:
                 # Wait for and click the selected GE-FEL button
                 button = wait_for_element(By.CSS_SELECTOR, button_selector, timeout)
@@ -433,6 +435,8 @@ def advise_ge_fel_course(timeout=10):
                 # Check if the modal contains the success message
                 success_modal = wait_for_element(By.CSS_SELECTOR, "#modal2Body", timeout)
                 modal_text = success_modal.text
+                print(f"[DEBUG] Modal text: {modal_text}")  # Print modal text for debugging
+
                 if "Successfully advised course" in modal_text:
                     print(f"Successfully advised course: GE-FEL {selected_course} - {course_title}.")
                     try:
@@ -441,7 +445,8 @@ def advise_ge_fel_course(timeout=10):
                         close_btn.click()
                     except Exception:
                         pass
-                    return  # Stop asking after success
+                    advised_or_success = True
+                    return  # <-- Forcefully end the function here
                 if "Course already been advised!" in modal_text:
                     print(f"Course already been advised!")
                     try:
@@ -450,7 +455,8 @@ def advise_ge_fel_course(timeout=10):
                         close_btn.click()
                     except Exception:
                         pass
-                    return  # Stop asking after already advised
+                    advised_or_success = True
+                    return  # <-- Forcefully end the function here
                 if "Cannot advise course equivalent due to course schedule not available" in modal_text:
                     print("Cannot advise course: schedule not available. Please select another GE-FEL course.")
                     try:
@@ -460,12 +466,15 @@ def advise_ge_fel_course(timeout=10):
                     except Exception:
                         pass
                     break  # Break inner loop, re-prompt user
+                # If none of the above, print for debugging
+                print(f"[DEBUG] Unhandled modal text: {modal_text}")
             except TimeoutException:
                 # Timeout branch: check if modal is already showing a result
                 try:
                     modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
                     if modal.is_displayed():
                         modal_body = modal.find_element(By.CSS_SELECTOR, "#modal2Body").text.strip()
+                        print(f"[DEBUG] Timeout branch modal text: {modal_body}")
                         if "Successfully advised course" in modal_body:
                             print(f"Successfully advised course: GE-FEL {selected_course} - {course_title}. (Timeout branch)")
                             try:
@@ -473,7 +482,8 @@ def advise_ge_fel_course(timeout=10):
                                 close_btn.click()
                             except Exception:
                                 pass
-                            return
+                            advised_or_success = True
+                            return  # <-- Forcefully end the function here
                         if "Course already been advised!" in modal_body:
                             print(f"Course already been advised! (Timeout branch)")
                             try:
@@ -481,7 +491,8 @@ def advise_ge_fel_course(timeout=10):
                                 close_btn.click()
                             except Exception:
                                 pass
-                            return
+                            advised_or_success = True
+                            return  # <-- Forcefully end the function here
                         if "Cannot advise course equivalent due to course schedule not available" in modal_body:
                             print("Cannot advise course: schedule not available. Please select another GE-FEL course. (Timeout branch)")
                             try:
@@ -490,14 +501,17 @@ def advise_ge_fel_course(timeout=10):
                             except Exception:
                                 pass
                             break  # Break inner loop, re-prompt user
-                except Exception:
-                    pass
+                        # If none of the above, print for debugging
+                        print(f"[DEBUG] Timeout branch unhandled modal text: {modal_body}")
+                except Exception as ex:
+                    print(f"[DEBUG] Exception in timeout branch: {ex}")
                 print("Error: Free Elective Course content did not load properly. Retrying...")
             except WebDriverException as e:
                 try:
                     modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
                     if modal.is_displayed():
                         modal_body = modal.find_element(By.CSS_SELECTOR, "#modal2Body").text.strip()
+                        print(f"[DEBUG] WebDriverException modal text: {modal_body}")
                         if "undefined" in modal_body:
                             print(f"Modal issue detected: {modal_body}. Closing modal and retrying...")
                             ActionChains(browser).send_keys(Keys.ESCAPE).perform()
@@ -515,10 +529,13 @@ def advise_ge_fel_course(timeout=10):
                             ActionChains(browser).send_keys(Keys.ESCAPE).perform()
                             print("Modal closed after 20-second wait. Retrying...")
                             continue
+                        # If none of the above, print for debugging
+                        print(f"[DEBUG] WebDriverException unhandled modal text: {modal_body}")
                 except Exception as modal_error:
                     print(f"Error while handling modal: {modal_error}")
             time.sleep(2)
-        # If we reach here, it means the course could not be advised due to schedule not available, so re-prompt
+        if advised_or_success:
+            return  # <-- Also forcefully end the function here if needed
 
 def schedule_ge_fel_course(timeout=10):
     """
@@ -1479,28 +1496,29 @@ def main():
 
     #this block of code is for advising courses for non block. you can edit the functions to do the individual courses you want to advise.
     # then print their schedules and href link which leads to faster requests to the server since its what you press instead of clicking add.
-    print("Navigating to Advised Course...")
-    navigate_to_advise_course()
+    
+    # print("Navigating to Advised Course...")
+    # navigate_to_advise_course()
 
-    advise_CPE_2301()
-    time.sleep(2)  # Wait for the modal to load properly
-    advise_CPE_2302()
-    time.sleep(2)  # Wait for the modal to load properly
-    advise_CPE_2303L
+    # advise_CPE_2301()
+    # time.sleep(2)  # Wait for the modal to load properly
+    # advise_CPE_2302()
+    # time.sleep(2)  # Wait for the modal to load properly
+    # advise_CPE_2303L
     
-    close_remaining_courses_modal()
+    # close_remaining_courses_modal()
     
-    schedule_CPE_2301()
-    schedule_CPE_2302()
-    schedule_CPE_2303L()
+    # schedule_CPE_2301()
+    # schedule_CPE_2302()
+    # schedule_CPE_2303L()
     
     # this block of code is for enrolling in GE-FEL courses which is not needed for now.
-    #print("Navigating to Advised Course...")
-    #navigate_to_advise_course()
-    #print("Navigating to GE-FEL 2...")
-    #press_GE_FEL2()
-    #print("Pressing GE-FEL AYG...")
-    #advise_ge_fel_course() the advise ge fel course is a bit broken though due to it not being able to handle success properly yet. will fix soon
+    print("Navigating to Advised Course...")
+    navigate_to_advise_course()
+    print("Navigating to GE-FEL 2...")
+    press_GE_FEL2()
+    print("Pressing GE-FEL AYG...")
+    advise_ge_fel_course() #the advise ge fel course is a bit broken though due to it not being able to handle success properly yet. will fix soon
     #schedule_ge_fel_course() 
     
     #schedule_CPES() initial test to see schedule of a certain course. hte schedule cpe is much better i think
