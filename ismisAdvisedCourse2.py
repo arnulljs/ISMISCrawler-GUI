@@ -388,9 +388,10 @@ def advise_ge_fel_course(timeout=10):
     Handles:
       - Success
       - Already advised
+      - Already taken and passed
       - Schedule not available
       - Maximum units reached
-    Stops asking after a successful advise, already advised, or max units reached.
+    Stops asking after a successful advise, already advised, already passed, or max units reached.
     """
 
     ge_fel_courses = [
@@ -431,6 +432,18 @@ def advise_ge_fel_course(timeout=10):
 
                 success_modal = wait_for_element(By.CSS_SELECTOR, "#modal2Body", timeout)
                 modal_text = success_modal.text
+
+                # Handle "Student has already taken and passed GE-FEL ____"
+                if "Student has already taken and passed GE-FEL" in modal_text:
+                    print(modal_text)
+                    try:
+                        modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
+                        close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
+                        close_btn.click()
+                    except Exception:
+                        pass
+                    return
+
                 if "Successfully advised course" in modal_text:
                     print(f"Successfully advised course: GE-FEL {selected_course} - {course_title}.")
                     try:
@@ -472,6 +485,14 @@ def advise_ge_fel_course(timeout=10):
                     modal = browser.find_element(By.CSS_SELECTOR, "#modal2")
                     if modal.is_displayed():
                         modal_body = modal.find_element(By.CSS_SELECTOR, "#modal2Body").text.strip()
+                        if "Student has already taken and passed GE-FEL" in modal_body:
+                            print(modal_body)
+                            try:
+                                close_btn = modal.find_element(By.CSS_SELECTOR, "button.close[data-dismiss='modal']")
+                                close_btn.click()
+                            except Exception:
+                                pass
+                            return
                         if "Successfully advised course" in modal_body:
                             print(f"Successfully advised course: GE-FEL {selected_course} - {course_title}. (Timeout branch)")
                             try:
