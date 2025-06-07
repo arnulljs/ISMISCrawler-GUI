@@ -525,7 +525,7 @@ def advise_ge_fel_course(timeout=10):
                             except Exception:
                                 pass
                             time.sleep(2)  # Wait before retrying
-                            press_GE_FEL2()  # Retry with GE-FEL 2 this is the important line of code to change which ge_fel. maybe il make it callable instead?
+                            press_GE_FEL2()  # Retry with GE-FEL 2 this is the important line of code to change which ge_fel.
                             break
                 except Exception:
                     pass
