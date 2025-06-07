@@ -382,20 +382,18 @@ def press_GE_FEL3():
 
         time.sleep(2)  # Brief delay before retrying     
 
-def advise_ge_fel_course(press_ge_fel_func, timeout=10):
+def advise_ge_fel_course(timeout=10):
     """
-    Advises a GE-FEL course, calling the provided press_ge_fel_func to open the correct modal.
+    Continuously tries to press a GE-FEL button until the modal with "Successfully advised course" appears.
     Handles:
       - Success
       - Already advised
       - Already taken and passed
       - Schedule not available
       - Maximum units reached
-    Stops after a successful advise, already advised, already passed, or max units reached.
-    Args:
-        press_ge_fel_func: Function to call to press the correct GE-FEL button (e.g., press_GE_FEL2 or press_GE_FEL3)
-        timeout: Timeout for waiting for elements (default: 10)
+    Stops asking after a successful advise, already advised, already passed, or max units reached.
     """
+
     ge_fel_courses = [
         ("ESUR", "EUREKA! STIR YOUR IMAGINATION"),
         ("TPDD", "THANATOLOGY (PHILOSOPHY OF DYING AND DEATH)"),
@@ -435,6 +433,7 @@ def advise_ge_fel_course(press_ge_fel_func, timeout=10):
                 success_modal = wait_for_element(By.CSS_SELECTOR, "#modal2Body", timeout)
                 modal_text = success_modal.text
 
+                # Handle "Student has already taken and passed GE-FEL ____"
                 if "Student has already taken and passed GE-FEL" in modal_text:
                     print(modal_text)
                     try:
@@ -525,9 +524,8 @@ def advise_ge_fel_course(press_ge_fel_func, timeout=10):
                                 close_btn.click()
                             except Exception:
                                 pass
-                            time.sleep(2)
-                            # Call the provided function to press the correct GE-FEL button/modal
-                            press_ge_fel_func()
+                            time.sleep(2)  # Wait before retrying
+                            press_GE_FEL2()  # Retry with GE-FEL 2 this is the important line of code to change which ge_fel. maybe il make it callable instead?
                             break
                 except Exception:
                     pass
@@ -1528,7 +1526,7 @@ def main():
     print("Navigating to GE-FEL 2...")
     press_GE_FEL2()
     print("Pressing GE-FEL AYG...")
-    advise_ge_fel_course(press_GE_FEL2()) #this is for re pressing the on which ge_Fel although i think it doesnt matter if you do ge_fel2 or gefel3 since the elective are diff but better to be safe than sorry.
+    advise_ge_fel_course() #the advise ge fel course is a bit broken though due to it not being able to handle success properly yet. will fix soon
     time.sleep(2)  # Wait for the modal to load properly
     close_remaining_courses_modal()
     schedule_ge_fel_course() #can call this multiple times to get the schedules of the ge fel courses you want.
