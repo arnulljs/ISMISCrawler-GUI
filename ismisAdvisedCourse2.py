@@ -1512,7 +1512,7 @@ def main():
     time.sleep(2)  # Wait for the modal to load properly
     advise_CPE_2302()
     time.sleep(2)  # Wait for the modal to load properly
-    advise_CPE_2303L
+    advise_CPE_2303L()
     
     close_remaining_courses_modal()
     
