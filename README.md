@@ -3,10 +3,15 @@
 # GUI BY ARNOLD JOSEPH NAJERA
 
 ## Context
-Recently, I've been fascinated by the concept of webscraping using Python. Therefore, I will be using it to my advantage to solve my laziness by letting a script view my grades for me. 
+Built upon Kuya Zach and Sean's builds of this program, I'm thinking it would be more accessible and arguably easier to use with a GUI. Personal project really.
 
 ## Current ideas
-I'm planning to use Selenium through a headless Chromium webdriver to do authentication for me and accessing the grades URL itself. The grades are enclosed in tables which could be parsed by the script easily with a bit of experimentation.
+I'm planning to use Kivy to build the GUI for the program and make the program open the users default browser instead of Chrome, as long as its Chromium. So theoretically it should be able to open your default Chromium browser (Edge, Opera/GX, Brave, etc.)
+
+# How to install Selenium
+- Install python at https://www.python.org/downloads/windows/
+- run (python --version) at command prompt
+- run (python -m pip install selenium)
 
 ## Zach Riane Machacon Progress report
 January 19, 2021
@@ -17,12 +22,7 @@ January 20, 2021
 - Implemented checking for login status and site crash.
 - Next plan would be to implement a checker for remaining balance for the semester.
 
-# How to install Selenium
-- Install python at https://www.python.org/downloads/windows/
-- run (python --version) at command prompt
-- run (python -m pip install selenium)
-
-# Chrys Sean Sevilla (Noxctis) Changes
+## Chrys Sean Sevilla (Noxctis) Changes
 January 3, 2025
 - Implented checking if site times out or crashes and added global variable for username and password.
 - Next plan is to implement scraper for the offered courses
