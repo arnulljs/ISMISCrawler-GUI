@@ -8,10 +8,14 @@ Built upon Kuya Zach and Sean's builds of this program, I'm thinking it would be
 ## Current ideas
 I'm planning to use Kivy to build the GUI for the program and make the program open the users default browser instead of Chrome, as long as its Chromium. So theoretically it should be able to open your default Chromium browser (Edge, Opera/GX, Brave, etc.)
 
-# How to install Selenium
+# How to install dependencies
 - Install python at https://www.python.org/downloads/windows/
 - run (python --version) at command prompt
+## Selenium
 - run (python -m pip install selenium)
+## Kivy (and KivyMD 2.0.1.dev0)
+- run (pip install kivy[full]
+- pip install git+https://github.com/kivymd/KivyMD.git
 
 ## Zach Riane Machacon Progress report
 January 19, 2021
@@ -50,3 +54,7 @@ June 6, 2025
   - All schedule viewing functions print schedule details only if present, and skip rows with missing information.
   - Ensured all modals are closed after actions, preventing stuck states and repeated prompts.
 - Noted code redundancy in course handling; refactoring to generalize course code logic is under consideration.
+
+## Arnold Joseph Najera (arnulljs) Changes
+July 5, 2025
+- Created Login GUI without functionality
