@@ -14,8 +14,8 @@ I'm planning to use Kivy to build the GUI for the program and make the program o
 ## Selenium
 - run (python -m pip install selenium)
 ## Kivy (and KivyMD 2.0.1.dev0)
-- run (pip install kivy[full]
-- pip install git+https://github.com/kivymd/KivyMD.git
+- run (pip install kivy[full])
+- run (pip install git+https://github.com/kivymd/KivyMD.git)
 
 ## Zach Riane Machacon Progress report
 January 19, 2021
