@@ -1,0 +1,108 @@
+<LoginScreen>
+    name: "login"
+    MDRelativeLayout:
+        canvas.before:
+            Color:
+                rgba: 43/255, 43/255, 43/255, 0.8
+            Rectangle:
+                pos: self.pos
+                size: self.size
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: "kv/img/gradient.png"
+
+
+    MDBoxLayout:
+        orientation: "vertical"
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        size_hint: [0.8, None]
+        height: dp(400)
+        spacing: dp(30)
+        adaptive_height: True
+
+        Widget:
+            size_hint_y: None
+            height: dp(80)
+
+        MDLabel:
+            text: "Welcome to"
+            theme_text_color: "Custom"
+            text_color: [1, 1, 1, 1]  # White text
+            font_style: "Display"
+            halign: "left"
+            size_hint_y: None
+            height: dp(30)
+            bold: True
+            padding: dp(5)
+            spacing: dp(10)
+
+        MDLabel:
+            text: "ISMIS Crawler"
+            theme_text_color: "Custom"
+            text_color: [1, 1, 1, 1]  # White text
+            font_style: "Display"
+            halign: "left"
+            size_hint_y: None
+            height: dp(20)
+            bold: True
+            padding: dp(10)
+            spacing: dp(10)
+
+        MDLabel:
+            text: " by Machacon, Sevilla, Najera"
+            theme_text_color: "Custom"
+            text_color: [0.8, 0.8, 0.8, 1]  # Light gray text
+            font_style: "Title"
+            role: "large"
+            halign: "left"
+            size_hint_y: None
+            height: dp(1)
+            bold: True
+
+        MDTextField:
+            mode: 'filled'
+            MDTextFieldLeadingIcon:
+                icon: "account"
+            MDTextFieldHintText:
+                text: "ISMIS Username"
+                text_color_normal: "white"
+                text_color_focus: "white"
+
+        MDTextField:
+            mode: "filled"
+            theme_text_color: "Custom"
+            text_color_normal: [0.263, 0.282, 0.247, 1]  # #43483F
+            text_color_focus: [0.263, 0.282, 0.247, 1]   # #43483F
+            MDTextFieldLeadingIcon:
+                icon: "lock"
+            MDTextFieldHintText:
+                text: "ISMIS Password"
+                text_color_normal: "white"
+                text_color_focus: "white"
+            MDTextFieldHelperText:
+                text: "Your password will NOT be saved into a database! It is saved locally so there is no risk :)"
+                text_color_focus: "white"
+                mode: "persistent"
+        
+        Widget:
+            size_hint_y: None
+            height: dp(10)
+            
+        MDButton:
+            style: "tonal"
+            theme_width: "Custom"
+            md_bg_color: [41/255, 46/255, 44/255, 1]
+            height: dp(56)
+            padding: dp(10)
+            spacing: dp(10)
+            size_hint_x: 1
+            MDButtonText:
+                id: text
+                text: "Login"
+                pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                bold: True
+            
+
+
+
