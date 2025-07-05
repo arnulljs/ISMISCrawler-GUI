@@ -58,3 +58,4 @@ June 6, 2025
 ## Arnold Joseph Najera (arnulljs) Changes
 July 5, 2025
 - Created Login GUI without functionality
+- Barebones Home GUI without functionality
