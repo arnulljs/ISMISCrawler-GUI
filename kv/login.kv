@@ -61,6 +61,7 @@
             bold: True
 
         MDTextField:
+            id: username
             mode: 'filled'
             MDTextFieldLeadingIcon:
                 icon: "account"
@@ -70,10 +71,10 @@
                 text_color_focus: "white"
 
         MDTextField:
+            id: password
             mode: "filled"
             theme_text_color: "Custom"
-            text_color_normal: [0.263, 0.282, 0.247, 1]  # #43483F
-            text_color_focus: [0.263, 0.282, 0.247, 1]   # #43483F
+            password: True
             MDTextFieldLeadingIcon:
                 icon: "lock"
             MDTextFieldHintText:
@@ -90,6 +91,7 @@
             height: dp(10)
             
         MDButton:
+            id: login
             style: "tonal"
             theme_width: "Custom"
             md_bg_color: [41/255, 46/255, 44/255, 1]
@@ -97,6 +99,7 @@
             padding: dp(10)
             spacing: dp(10)
             size_hint_x: 1
+            on_release: app.on_login()
             MDButtonText:
                 id: text
                 text: "Login"

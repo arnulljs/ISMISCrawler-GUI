@@ -21,6 +21,7 @@
         
         MDTopAppBarLeadingButtonContainer:
             MDIconButton:
+                on_release: app.on_logout()
                 icon: "logout"
                 theme_icon_color: "Custom"
                 icon_color: [1, 1, 1, 1]
@@ -34,5 +35,153 @@
             bold: True
             font_style: "Headline"
             role: "large"
+        
+        MDTopAppBarTrailingButtonContainer:
+            MDIconButton:
+                icon: "github"
+                theme_icon_color: "Custom"
+                icon_color: [1, 1, 1, 1]
+                pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        
+    MDCard:
+        size_hint: 0.9, 0.1
+        pos_hint: {"center_x": 0.5, "center_y": 0.85}
+        md_bg_color: [23/255, 23/255, 23/255, 1]
+        radius: dp(10)
+        elevation: dp(10)
+        padding: dp(10)
+        spacing: dp(10)
+        orientation: "vertical"
+        
+        RelativeLayout:
+            MDLabel:
+                text: "Functions"
+                bold: True
+                adaptive_size: True
+                color: "white"
+                pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                font_style: "Headline"
+                role: "medium"
+        
+    MDCard:
+        size_hint: 0.9, 0.35
+        pos_hint: {"center_x": 0.5, "center_y": 0.6}
+        md_bg_color: [23/255, 23/255, 23/255, 1]
+        radius: dp(10)
+        elevation: dp(10)
+        padding: dp(0)
+        orientation: "vertical"
 
+        BoxLayout:
+            orientation: "vertical"
+            padding: [dp(20), dp(50), dp(20), dp(10)]
+
+            MDLabel:
+                text: "Auto Enroll"
+                font_style: "Display"
+                role: "medium"
+                bold: True
+                theme_text_color: "Custom"
+                text_color: "white"
+                size_hint_y: None
+                height: self.texture_size[1]
+                text_size: self.width, None
+                halign: "left"
+
+            MDLabel:
+                text: "Enroll in lacking courses. Let this run overnight so you don’t have to participate in the race ;)"
+                font_style: "Title"
+                role: "medium"
+                bold: True
+                theme_text_color: "Custom"
+                text_color: "white"
+                size_hint_y: None
+                height: self.texture_size[1]
+                text_size: self.width, None
+                halign: "left"
+            
+            Widget:
+                size_hint_y: None
+                height: dp(50)
+
+            MDButton:
+                id: enroll
+                style: "tonal"
+                theme_width: "Custom"
+                md_bg_color: [41/255, 46/255, 44/255, 1]
+                height: dp(56)
+                padding: dp(10)
+                spacing: dp(10)
+                size_hint_x: 1
+                MDButtonText:
+                    id: text
+                    text: "Run"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                    bold: True
+
+
+    MDCard:
+        size_hint: 0.9, 0.35
+        pos_hint: {"center_x": 0.5, "center_y": 0.23}
+        md_bg_color: [23/255, 23/255, 23/255, 1]
+        radius: dp(10)
+        elevation: dp(10)
+        padding: dp(0)
+        orientation: "vertical"
+
+        BoxLayout:
+            orientation: "vertical"
+            padding: [dp(20), dp(50), dp(20), dp(10)]
+
+            MDLabel:
+                text: "Crawl Grades"
+                font_style: "Display"
+                role: "medium"
+                bold: True
+                theme_text_color: "Custom"
+                text_color: "white"
+                size_hint_y: None
+                height: self.texture_size[1]
+                text_size: self.width, None
+                halign: "left"
+
+            MDLabel:
+                text: "Retrieve grades with a single button without having to sift through menus upon menus."
+                font_style: "Title"
+                role: "medium"
+                bold: True
+                theme_text_color: "Custom"
+                text_color: "white"
+                size_hint_y: None
+                height: self.texture_size[1]
+                text_size: self.width, None
+                halign: "left"
+
+            Widget:
+                size_hint_y: None
+                height: dp(50)
+
+            MDButton:
+                id: crawl
+                style: "tonal"
+                theme_width: "Custom"
+                md_bg_color: [41/255, 46/255, 44/255, 1]
+                height: dp(56)
+                padding: dp(10)
+                spacing: dp(10)
+                size_hint_x: 1
+                MDButtonText:
+                    id: text
+                    text: "Run"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                    bold: True
+    
+    MDLabel:
+        text: "by Machacon, Sevilla, Najera"
+        halign: "center"
+        padding: dp(5)
+        pos_hint: {"center_x": 0.5, "center_y": 0.025}
+        bold: True
+        font_style: "Label"
+        role: "medium"
         
