@@ -59,3 +59,6 @@ June 6, 2025
 July 5, 2025
 - Created Login GUI without functionality
 - Barebones Home GUI without functionality
+- Fully fleshed Login with functionality
+- Home GUI realized but no functionality
+- Added Selenium functionality up until login stage.
