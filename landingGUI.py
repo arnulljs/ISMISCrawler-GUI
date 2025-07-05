@@ -73,20 +73,17 @@ class ISMISCrawler(MDApp):
         browser.find_element(By.CSS_SELECTOR, "button.btn").click()
 
         show("Login successful! Launching dashboard...")
-        time.sleep(2)  # simulate wait or dashboard load
+        time.sleep(2)
             
     def _run_ismis_and_continue(self):
         try:
             self.runISMIS()
         except Exception as e:
-            # Show error and exit early
             Clock.schedule_once(lambda dt: self.show_dialog("Login Failed", str(e), auto_dismiss=True), 0)
             return
 
-        # Dismiss the loading dialog
         Clock.schedule_once(lambda dt: self.dialog.dismiss() if self.dialog else None, 0.1)
 
-        # Go to home screen
         Clock.schedule_once(lambda dt: self.goto_home(), 0.5)
 
     def build(self):
@@ -123,10 +120,8 @@ class ISMISCrawler(MDApp):
                     username = lines[0].strip()
                     password = lines[1].strip()
 
-                    # Show loading dialog
                     self.show_dialog("Auto Login", "Logging you in automatically...", auto_dismiss=False)
 
-                    # Start selenium in background thread
                     import threading
                     threading.Thread(target=self._run_ismis_and_continue).start()
                     return
@@ -176,7 +171,7 @@ class ISMISCrawler(MDApp):
         self.dialog.open()
 
         if auto_dismiss and on_dismiss:
-            Clock.schedule_once(lambda dt: self.dialog.dismiss(), 1)  # delay 1s
+            Clock.schedule_once(lambda dt: self.dialog.dismiss(), 1)
             Clock.schedule_once(lambda dt: on_dismiss(), 1.1) 
         
     def on_logout(self):
