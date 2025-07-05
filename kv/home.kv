@@ -1,0 +1,38 @@
+<HomeScreen>
+    name: "home"
+    MDRelativeLayout:
+        canvas.before:
+            Color:
+                rgba: 43/255, 43/255, 43/255, 0.8
+            Rectangle:
+                pos: self.pos
+                size: self.size
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: "kv/img/gradient.png"
+
+    MDTopAppBar:
+        type: "small"
+        size_hint_x: 1
+        pos_hint: {"center_x": 0.5, "center_y": .97}
+        theme_bg_color: "Custom"
+        md_bg_color: [23/255, 23/255, 23/255, 1]
+        
+        MDTopAppBarLeadingButtonContainer:
+            MDIconButton:
+                icon: "logout"
+                theme_icon_color: "Custom"
+                icon_color: [1, 1, 1, 1]
+                pos_hint: {"center_x": 0.5, "center_y": 0.5}
+
+        MDTopAppBarTitle:
+            text: "ISMIS Crawler"
+            halign: "left"
+            padding: dp(5)
+            pos_hint: {"center_x": 0.5, "center_y": 0.35}
+            bold: True
+            font_style: "Headline"
+            role: "large"
+
+        

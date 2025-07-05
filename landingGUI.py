@@ -13,6 +13,9 @@ from kivy.uix.screenmanager import Screen
 class LoginScreen(Screen):
     pass
 
+class HomeScreen(Screen):
+    pass
+
 class ISMISCrawler(MDApp):
     def build(self):
         Window.size = (614, 768)
@@ -25,7 +28,7 @@ class ISMISCrawler(MDApp):
         self.theme_cls.primary_palette = "Green"
         self.theme_cls.primary_hue = "700"
         self.theme_cls.theme_style = "Dark"
-        Builder.load_file('kv/login.kv')
-        return LoginScreen()
+        Builder.load_file('kv/home.kv')
+        return HomeScreen()
 
 ISMISCrawler().run()
